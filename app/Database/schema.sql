@@ -1,14 +1,22 @@
-drop database IF EXISTS SIO_Proj1;
-create database SIO_Proj1;
-
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Image;
+DROP TABLE IF EXISTS Product_Has_Image;
+DROP TABLE IF EXISTS Review;
+DROP TABLE IF EXISTS Category;
+DROP TABLE IF EXISTS Category_Has_Product;
+DROP TABLE IF EXISTS `Order`;
+DROP TABLE IF EXISTS Order_Has_Product;
+DROP TABLE IF EXISTS Cart;
+DROP TABLE IF EXISTS Wishlist;
 
     CREATE TABLE User
     (
         Username varchar(50) not null primary key,
         Password binary(64) not null,
-        Name varchar(100) not null,
+        Name varchar(256) not null,
         PhoneNumber varchar(15),
-        Email varchar(100), 
+        Email varchar(256), 
         Age int not null,
         Role varchar(10) not null
     );
@@ -23,7 +31,7 @@ create database SIO_Proj1;
 
     CREATE TABLE Image
     (  
-        ID int auto_increment not null primary key,
+        ID INTEGER primary key AUTOINCREMENT,
         Link varchar(400) not null
     );
 
@@ -37,7 +45,7 @@ create database SIO_Proj1;
 
     CREATE TABLE Review
     (  
-        ID int not null primary key auto_increment,
+        ID INTEGER primary key AUTOINCREMENT,
         PName varchar(50) not null ,
         ReviewBody varchar(400) not null,
         FOREIGN KEY (Pname) REFERENCES Product(Name)
@@ -62,7 +70,7 @@ create database SIO_Proj1;
 
     CREATE TABLE `Order`
     (  
-        ID int not null primary key auto_increment,
+        ID INTEGER primary key AUTOINCREMENT,
         Client varchar(50) not null,
         Date datetime not null,
         ConcDate datetime,
@@ -84,7 +92,7 @@ create database SIO_Proj1;
 
     CREATE TABLE Cart
     (  
-        ID int not null primary key auto_increment,
+        ID INTEGER primary key AUTOINCREMENT,
         Client varchar(50) not null,
         PName varchar(50) not null ,
         FOREIGN KEY (Client) REFERENCES User(Username)
@@ -92,7 +100,7 @@ create database SIO_Proj1;
 
     CREATE TABLE Wishlist
     (  
-        ID int not null primary key auto_increment,
+        ID INTEGER primary key AUTOINCREMENT,
         Client varchar(50) not null,
         PName varchar(50) not null ,
         FOREIGN KEY (Client) REFERENCES User(Username)
