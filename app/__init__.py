@@ -30,12 +30,14 @@ def create_app(test_config=None):
 
     from Database import db
     db.init_app(app)
-
     from Blueprints import auth
-    from Blueprints import prodDetails
+    from Blueprints import productDetails
+    from Blueprints import products
 
     app.register_blueprint(auth.bp)
-    app.register_blueprint(prodDetails.bp)
+    app.register_blueprint(productDetails.bp)
+    app.register_blueprint(products.bp)
 
     return app
+
 create_app().run()

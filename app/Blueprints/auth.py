@@ -42,7 +42,7 @@ def register():
         if len(error) == 0:
             try:
                 db.execute(
-                    "INSERT INTO user (Username, Password, Name , PhoneNumber , Email , Age , Role) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO User (Username, Password, Name , PhoneNumber , Email , Age , Role) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     (username, generate_password_hash(password) , name , phone , email , age , 'user')
                 )
                 db.commit()

@@ -7,9 +7,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from Database.db import get_db
 
-bp = Blueprint('prodDetails', __name__, url_prefix='/prodDetails')
+bp = Blueprint('products', __name__, url_prefix='/products')
 
-@bp.route('/product', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 def product():
     if request.method == 'GET':
-        return render_template('product/productDetails.html',title="Product Details")
+        db=get_db()
+        items=db.execute("SELECT * FROM Product").fetchall()
+        return render_template('product/products.html',products=items,title="Merch Store")
