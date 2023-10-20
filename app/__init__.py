@@ -32,6 +32,10 @@ def create_app(test_config=None):
     db.init_app(app)
 
     from Blueprints import auth
+    from Blueprints import prodDetails
+
     app.register_blueprint(auth.bp)
-    
+    app.register_blueprint(prodDetails.bp)
+
     return app
+create_app().run()
