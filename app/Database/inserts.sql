@@ -1,6 +1,27 @@
 -- Insert data into the User table
 INSERT INTO User (Username, Password, Name, PhoneNumber, Email, Age, Role)
 VALUES
+    ('john_doe', 'scrypt:32768:8:1$ktYR2pTKDPWTivre$3eefabb308d4e42dbe4098f861e96505245ad6a0b801762b6ceca980ed7be60d919ff02145451394201c1d35f8f83a3d36a2dcbf059aab4b9ed1794b074beb3b', 'John Doe', 1234567890, 'john.doe@example.com', 30, 'Customer'),
+    ('jane_smith', 'scrypt:32768:8:1$sHedLeOgqmC8NMuI$c0e94f4f5bbdae816943f1451436a4094775c420397ab82e6c74ad5daa9c6f2d8c0bccc3259288c4ea9c749932a23db3c9e2ff841ca7bc7d1128fd8700690ab0', 'Jane Smith', 0, 'jane.smith@example.com', 25, 'Customer'),
+    ('admin_user', 'scrypt:32768:8:1$88JWKlAGfjPTftKJ$0d22b66c9078542fe7e5a08b192dcef34d1d8ce4b9f478eb17b438bf09700bf035682c726cfcb756e2f6d48814ed024d499ce9c96feb9ed83df4b62cb8e5881f', 'Admin User', 0, 'admin@example.com', 35, 'Admin'),
+    ('alice_wonderland', 'scrypt:32768:8:1$jYw8SE1Vtpe8DJTx$0866a6f60928cade393c052b1404b9d45544815170b3fdc118af7fbc97b4b74dd8b64f4ebffa8515334de3061428470ef8a031d4b4709b0a0e2a381e715f2632', 'Alice Wonderland', 9876543210, 'alice@example.com', 28, 'Customer'),
+    ('bob_smith', 'scrypt:32768:8:1$j3wYRTUrZEOheCvo$cfc034e6cad41744e2e427e40be6c628408fad1bdc3df7b302cc0c8ce4241acd883c92d600984e37be4e1ce2bd9cca84a4864dbc4dc710f2fbac7cb814f50f80', 'Bob Smith', 0, 'bob@example.com', 40, 'Customer'),
+    ('sarah_connor', 'scrypt:32768:8:1$v9DizR5oFxj6MuTq$4087fbd36518a3dfbcb364ec8d4f717d83e3306c5d3a8fa18e661086efaf343125820487cc7ed4cb537eda723e29b60cca1aa60b6c97598881be7152ce29a4f8', 'Sarah Connor', 5551234567, 'sarah@example.com', 35, 'Customer'),
+    ('clark_kent', 'scrypt:32768:8:1$LjeNYes62oBggmqa$bb94d447f7431dc2ef358c69a6241bac9228e65f02742e12913a52afc736ea3f13fe10e248b239baaab027ca70468798ad8ad538881c40e9d887e0245471b06e', 'Clark Kent', 0, 'clark@example.com', 30, 'Customer'),
+    ('linda_parker', 'scrypt:32768:8:1$y85qITBYP34kf3vV$ff47fbb851ffa4ef460344f9f2c7abcab5f16e8c4f9c7c78db5ea347884bf3447e90b28c7141d68b7d8a275f5cbb10a92c6a2c00bcc4bc1dde93345cab4bcf98', 'Linda Parker', 1239874560, 'linda@example.com', 22, 'Customer'),
+    ('carol_jones', 'scrypt:32768:8:1$BKlpq4YhLJm9jnfO$4afcb0145bf255ba5a85f0cf4e32b65edec275ad16d077714e5ccdc9f6cbd814e17054176691b7baa8835bb6bd9902939ed5b9409d36abed4f8bb157665998bc', 'Carol Jones', 0, 'carol@example.com', 45, 'Customer'),
+    ('mike_adams', 'scrypt:32768:8:1$pYql0iWb23RdArrF$e3403f0f29db8622307118b3ecfa059a3a29a4425ca8499b7aa07f8f04d07cd75b2d48e909b9859d5124ea3595cd69942c8589cfa4edca50fa02982d51a9aec6', 'Mike Adams', 7890123456, 'mike@example.com', 29, 'Customer'),
+    ('emma_smith', 'scrypt:32768:8:1$8agp4MtEBZSyqjgB$e8141a29054205a4e43b2f7f2ccdba925cc530c2f2b06051f01ec33a419fa28e37a4081174eccbbe853dd8a5f326538ae7d8517739956ea298f1fc12da2108e9', 'Emma Smith', 0, 'emma@example.com', 27, 'Customer'),
+    ('james_anderson', 'scrypt:32768:8:1$a7EfRCtllHbK5WRz$abeb8d7b3ae9164fdd052e68f0b68660f2ec5d3f595b000822f65273082b0abf15586fb1dce0c3a1b435f3ac1ccad973e9f8d6610c657ae037e4d044074772a2', 'James Anderson', 5557891230, 'james@example.com', 33, 'Customer'),
+    ('olivia_martin', 'scrypt:32768:8:1$dUnton3haaZc5xJ9$c61d3e5c9c54bf89d589521434a226f6eb9d86ecd805f44e43f12317913394eecd2efa65d1cc54b00d62c902c8ccba02bcae13e411b1089c5cffcf4b4aa4e6dd', 'Olivia Martin', 0, 'olivia@example.com', 31, 'Customer'),
+    ('william_jackson', 'scrypt:32768:8:1$nUbTdje80PFyTVMm$8361c0f63cdd115f154b8ca0f4bd4f53e2587f946aa15283b94e82264bc8d2aebaa640e8b199940f8eee3b931aa757e3b8eb3d2e690765364346b3f4e96c212c', 'William Jackson', 1235557890, 'william@example.com', 39, 'Customer'),
+    ('ava_miller', 'scrypt:32768:8:1$hIrUeoCUljdGqqRy$13121f8d468e902ea9cb6d42ee107bb3c80b8845a0ac170e3846b8e49505456c8704fde7a531a99a3df069cc9b689e9b7a4b6a3ca91d0ccc2317ad2fbd022bd0', 'Ava Miller', 0, 'ava@example.com', 24, 'Customer'),
+    ('michael_johnson', 'scrypt:32768:8:1$OdYzZC2Wb4ZJ1il9$35ebf44371a3a2844c3f8540de93b9129d54f5560f147b22b192d8a93d24c0ad91fc44a492b358c21b029a9f8c95d481cc9d238c746d976b6066e3e41075727a', 'Michael Johnson', 9998887777, 'michael@example.com', 37, 'Customer'),
+    ('sophia_wilson', 'scrypt:32768:8:1$JQ5L6MBRiGY5qIRR$a2077ea3f7aa2ac8fb413e17e92bd92250f506de5644ae5932ff0908c1191cc7500de26eb1f6c35d4b785dcb8f8004ea88c19bddbd4bfbd02e5b4e6db7cdc3a5', 'Sophia Wilson', 0, 'sophia@example.com', 28, 'Customer'),
+    ('david_clark', 'scrypt:32768:8:1$Fz1kv3GYLy8IzkfS$9c3419fe3a2ce1aa2a50520e3d8c08080bfe8f5b8a11436044f2efc8d7883efbd9d9cdb25e9be5144353b57cd8a1b2bada2ec5f8a2cb3a530b737bac793e2e43', 'David Clark', 1239998888, 'david@example.com', 36, 'Customer'),
+    ('oliver_martin', 'scrypt:32768:8:1$xeXr4yZR4p6ZxBMH$9f751ba1bef42f38e93f88aca245fa636491d8487e0cf1698c8177ccd526e4cce143789ac7b16681fbb1eee89e678a3c4f6363b557aa6fbd3605da0ba0b09770', 'Oliver Martin', 0, 'oliver@example.com', 26, 'Customer'),
+    ('lucy_hall', 'scrypt:32768:8:1$qfSgfTDtyEzBvg3i$c890ae66d6df3d5b73024c71af6f7303027d2440e6c2f042bc4466ce06235b30f4a389467584bf9c474f5ad4184c94ba99cd3635c1c89942aedaac1d8d025e59', 'Lucy Hall', 5554443333, 'lucy@example.com', 29, 'Customer');
+/* unhashed passes
     ('john_doe', 'hashed_password1', 'John Doe', 1234567890, 'john.doe@example.com', 30, 'Customer'),
     ('jane_smith', 'hashed_password2', 'Jane Smith', NULL, 'jane.smith@example.com', 25, 'Customer'),
     ('admin_user', 'admin_password', 'Admin User', NULL, 'admin@example.com', 35, 'Admin'),
@@ -21,7 +42,7 @@ VALUES
     ('david_clark', 'david_password', 'David Clark', 1239998888, 'david@example.com', 36, 'Customer'),
     ('oliver_martin', 'oliver_password', 'Oliver Martin', NULL, 'oliver@example.com', 26, 'Customer'),
     ('lucy_hall', 'lucy_password', 'Lucy Hall', 5554443333, 'lucy@example.com', 29, 'Customer');
-
+*/
 -- Insert data into the Product table
 INSERT INTO Product (Name, Description, Price, Qty)
 VALUES

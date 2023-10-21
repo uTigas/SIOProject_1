@@ -12,7 +12,8 @@ DROP TABLE IF EXISTS Wishlist;
 
     CREATE TABLE User
     (
-        Username varchar(50) not null primary key,
+        ID INTEGER primary key AUTOINCREMENT,
+        Username varchar(50) not null unique,
         Password binary(64) not null,
         Name varchar(256) not null,
         PhoneNumber varchar(15),

@@ -58,4 +58,94 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
-    return render_template('auth/login.html',title="Login")
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+
+        error = None
+
+        user = db.execute(
+            'SELECT * FROM user WHERE Username = ?', (username,)
+        ).fetchone()
+
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['Password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['ID']
+            return redirect(url_for('index'))
+
+        flash(error)
+
+    return render_template('auth/login.html')
+
+@bp.route('/change_password', methods=('GET', 'POST'))
+def change_password():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        npassword = request.form['passwordnew']
+        rpass = request.form['passwordrepeat']
+
+        db = get_db()
+        error = []
+
+        if not rpass == npassword:
+            error += ['Passwords dont match.\n']
+
+        user = db.execute(
+            'SELECT * FROM user WHERE Username = ?', (username,)
+        ).fetchone()
+
+        if user is None:
+            error += ['Incorrect username.']
+        elif not check_password_hash(user['Password'], password):
+            error += ['Incorrect password.']
+
+        if len(error) == 0:
+            try:
+                db.execute(
+                    "Update User SET Password=(?) WHERE Username = (?) ",
+                    (generate_password_hash(npassword),username)
+                )
+                db.commit()
+
+                return redirect(url_for('auth.login'))
+            
+            except db.IntegrityError:
+                error += [f"ERROR:Unreachable code"]
+
+        for m in error:
+            flash(m)
+
+    return render_template('auth/change_password.html')
+
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = get_db().execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view

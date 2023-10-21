@@ -1,4 +1,12 @@
-{% extends 'base.html' %} {% block main %}
+{% extends 'base.html' %} 
+
+{% block main %}
+
+{% from 'navbar.html' import navbar %}
+{{ navbar('shop.products') }}
+
+{% include 'flash.html' %}
+
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
@@ -28,7 +36,7 @@
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/productDetails?name={{name}}">View Details</a></div>
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/productDetails/{{product.name}}">View Details</a></div>
                         </div>
                     </div>
                 </div>
@@ -36,4 +44,7 @@
             {% endfor %}
         </div>
 </section>
+
+{% include 'footer.html' %}
+
 {% endblock %}

@@ -16,6 +16,7 @@ def product():
     if request.method == 'GET':
         name=request.args.get("name")
         db=get_db()
+        error=[]
         
         try:
             query=db.execute( "SELECT * FROM Product WHERE Name=?",(name,))

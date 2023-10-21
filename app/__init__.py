@@ -33,11 +33,9 @@ def create_app(test_config=None):
     from Blueprints import auth
     from Blueprints import productDetails
     from Blueprints import products
-
+    from Blueprints import shop
     app.register_blueprint(auth.bp)
-    app.register_blueprint(productDetails.bp)
-    app.register_blueprint(products.bp)
+    app.register_blueprint(shop.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
-
-create_app().run()

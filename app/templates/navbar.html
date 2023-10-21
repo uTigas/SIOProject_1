@@ -1,0 +1,52 @@
+{% macro navbar(curpage,pagedic={'shop.index':'Home','shop.products':'Produtos'}) -%}
+<!--Navbar -->
+<nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
+    <div class="container-fluid ps-5 pe-5">
+
+        <div class="d-flex flex-row flex-fill  navbar-nav ">
+            {% for item in pagedic.items() %}
+                {% if curpage != item[0] %}
+                    <a class="nav-link ps-3 fs-4 fw-bold" href="{{ url_for(item[0]) }}">{{ item[1] }} </a>
+                {% else %}
+                    <a class="nav-link active ps-3 fs-4 fw-bold" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    {% for item in pagedic.items() %}
+                        {% if curpage != item[0] %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div style="height: 72px;width: 100%;background-color: #f84921;position:fixed;z-index: 1;"></div>
+<div style="height: 72px;width: 100%;"></div>
+{% endmacro %}
