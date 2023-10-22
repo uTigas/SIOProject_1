@@ -19,10 +19,10 @@ def productDetails(name):
         query=db.execute( "SELECT * FROM Product WHERE Name=?",(name,))
         query=query.fetchall()
         if len(query)==0:
-            flash(f"Product {name} does not exist.")
+            flash(f"Product {name} does not exist.",'alert')
             return products()  
     except db.IntegrityError:
-        flash(f"Product {name} does not exist.")
+        flash(f"Product {name} does not exist.",'alert')
         return products()  
     else:
         flash("Item successfully added to the Cart!","info")
@@ -36,3 +36,7 @@ def products():
         db=get_db()
         items=db.execute("SELECT * FROM Product").fetchall()
         return render_template('product/products.html',products=items,title="Merch Store")
+    
+@bp.route('/whishlist')
+def whishlist():
+    return render_template('whishlist.html')

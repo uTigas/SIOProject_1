@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+{% from 'navbar.html' import navbar %}
+{{ navbar('shop.whishlist') }}
+
+<h1>Whishlist</h1>
+
+{% include 'footer.html' %}
+
+{% endblock %}

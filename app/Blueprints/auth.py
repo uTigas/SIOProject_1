@@ -52,7 +52,7 @@ def register():
                 return redirect(url_for("auth.login"))
             
         for m in error:
-            flash(m)
+            flash(m,'alert')
 
     return render_template('auth/register.html',title="Register")
 
@@ -79,7 +79,8 @@ def login():
             session['user_id'] = user['ID']
             return redirect(url_for('index'))
 
-        flash(error)
+        flash(error,'alert')
+
 
     return render_template('auth/login.html')
 
@@ -120,7 +121,7 @@ def change_password():
                 error += [f"ERROR:Unreachable code"]
 
         for m in error:
-            flash(m)
+            flash(m,'alert')
 
     return render_template('auth/change_password.html')
 
