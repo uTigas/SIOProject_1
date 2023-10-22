@@ -19,10 +19,10 @@ def productDetails(name):
         query=db.execute( "SELECT * FROM Product WHERE Name=?",(name,))
         query=query.fetchall()
         if len(query)==0:
-            flash(f"Product {name} does not exist.",'alert')
+            flash(f"Product {name} does not exist.",'danger')
             return products()  
     except db.IntegrityError:
-        flash(f"Product {name} does not exist.",'alert')
+        flash(f"Product {name} does not exist.",'danger')
         return products()  
     else:
         flash("Item successfully added to the Cart!","info")
