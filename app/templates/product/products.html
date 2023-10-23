@@ -8,9 +8,41 @@
         </div>
     </div>
 </header>
+<div class="container px-4 px-lg-5 mt-2">
+    <div class="row align-items-center">
+        <div style="display: inline-block;">
+            <h1>{{category}}</h1>
+        </div>
+        <div class="btn-group" style="display: inline-block;">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Category
+            </button>
+            <ul class="dropdown-menu">
+                {% for category in categories %}
+                <li><a class="dropdown-item" href="/products?category={{category.name}}">{{category.name}}</a></li>
+                {% endfor %}
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/products">All</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="input-group mt-2 ">
+        <form method="post" style="display: inline-flex;">
+            {% if search != "" %} <input type="search" placeholder="Search for product" value="{{search}}" id="form1" class="form-control" name="input" /> {% else %} <input type="search" placeholder="Search for Product" id="form1" class="form-control"
+                name="input" /> {% endif %}
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-search"></i>
+              </button>
+        </form>
+    </div>
+</div>
+
+
 <!-- Section-->
 <section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
+    <div class="container px-4 px-lg-5 mt-2">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
             {% for product in products %}
             <div class="col mb-5">

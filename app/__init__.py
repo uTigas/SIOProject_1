@@ -31,8 +31,6 @@ def create_app(test_config=None):
     from Database import db
     db.init_app(app)
     from Blueprints import auth
-    from Blueprints import productDetails
-    from Blueprints import products
     from Blueprints import shop
     app.register_blueprint(auth.bp)
     app.register_blueprint(shop.bp)
