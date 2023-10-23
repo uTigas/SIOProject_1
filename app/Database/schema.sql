@@ -39,9 +39,10 @@ DROP TABLE IF EXISTS Wishlist;
     CREATE TABLE Product_Has_Image
     (  
         PName varchar(50) not null,
-        ImageID int not null ,
+        ID int not null ,
         FOREIGN KEY (Pname) REFERENCES Product(Name),
-        primary key(Pname,ImageID) 
+        FOREIGN KEY (ID) REFERENCES [Image](ID),
+        primary key(Pname,ID) 
     );
 
     CREATE TABLE Review

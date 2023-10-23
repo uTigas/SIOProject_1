@@ -22,6 +22,7 @@ def productDetails(name):
             flash(f"Product {name} does not exist.",'danger')
             return products()  
         category=db.execute("Select CName from Category_Has_Product WHERE PName=?",(query[0][0],)).fetchone()
+        images=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(name,)).fetchall()
 
     except db.IntegrityError:
         flash(f"Product {name} does not exist.",'danger')
@@ -29,7 +30,7 @@ def productDetails(name):
     if request.method=="POST":
         flash("Item successfully added to the Cart!","info")
         
-    return render_template('product/productDetails.html',category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2],image="https://img.freepik.com/fotos-premium/o-suricato-suricata-suricatta-ou-suricate-e-um-pequeno-mangusto-encontrado-no-sul-da-africa_208861-941.jpg")
+    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2])
 
 
 @bp.route('/products', methods=('GET', 'POST'))
@@ -44,7 +45,7 @@ def products():
             items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name",(request.args.get("category"),)).fetchall()
             categories=db.execute("SELECT * FROM Category").fetchall()
             category=request.args.get("category")   
-
+            
         return render_template('product/products.html',search="", category=category,categories=categories, products=items,title="Merch Store")
    
     if request.method=="POST":

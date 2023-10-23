@@ -68,9 +68,93 @@ VALUES
     ('Ceramic Vase', 'Elegant ceramic vase for floral arrangements', 18, 30);
 
 -- Insert data into the Image table
+INSERT INTO [Image](Link)
+VALUES
+    ('https://media.gettyimages.com/id/1226947621/pt/foto/an-empty-red-cup-isolated-on-white.jpg?s=612x612&w=0&k=20&c=9wBhsSmbAe9TXaOf9p4kgYP7CS-cxeNYKt7F2aWn_aI='),
+    ('https://www.gettyimages.pt/detail/foto/close-up-empty-cups-imagem-royalty-free/687582368'), 
+    ('https://media.gettyimages.com/id/537479949/pt/foto/childs-tea-set.jpg?s=612x612&w=0&k=20&c=-aDMGs3J-Ql96ixInnmNobqWDbbbATU9yLIEoSiK4UM='),
+    ('https://media.gettyimages.com/id/183247435/pt/foto/isolado-branco-tiro-de-copo-de-caf%C3%A9-sobre-fundo-branco.jpg?s=612x612&w=0&k=20&c=Qd1GVyXLjw_N2GthNe-KQE66aXBVh1KVJHh0GSVFD6o='),
+    ('https://media.gettyimages.com/id/483960103/pt/foto/t-shirt-preta-em-branco-%C3%A0-frente-com-tra%C3%A7ado-de-recorte.jpg?s=612x612&w=0&k=20&c=2-eQtlzB6Cn_GarkQBJbwQjevDHSnKO3D6HzQiaP5F4='),
+    ('https://media.gettyimages.com/id/1489963665/pt/foto/gray-t-shirt-on-white-background.jpg?s=612x612&w=0&k=20&c=UzGKR8wOWGPta7dWx07IG9kZa6tGPAvAyVVtx_vAji4='),
+    ('https://media.gettyimages.com/id/154960461/pt/foto/transpira%C3%A7%C3%A3o-camisa-vermelha-em-fundo-branco.jpg?s=612x612&w=0&k=20&c=V6nnRPTRGTUdRZUas1BVxr2LAsrFvUPDxrY77f0IRNY='),
+    ('https://media.gettyimages.com/id/dv1134089/pt/foto/portrait-of-a-young-man-wearing-a-hooded-top-with-his-hands-in-his-pockets.jpg?s=612x612&w=0&k=20&c=xMSd4fgRaYo5z-SU5q0PtDY-bhkbPi_AEVUDEOog5pg='),
+    ('https://media.gettyimages.com/id/1287552214/pt/foto/reusable-coffee-cup-in-hand.jpg?s=612x612&w=0&k=20&c=fpSr3iTUXoFLDaVs9U3njSFBc5883GG-YyB_X5gx-aI='),
+    ('https://media.gettyimages.com/id/1164608650/pt/foto/close-up-of-a-businesswoman-holding-recycable-takeaway-coffee-cup.jpg?s=612x612&w=0&k=20&c=PpT-LPf1x47fE4Lb9xL6a7u12MP9JYOy7Z5NGArt7I0='),
+    ('https://media.gettyimages.com/id/96249604/pt/foto/tea-for-two.jpg?s=612x612&w=0&k=20&c=gj_rEmqSs_HcjSDdfTmhOvvjiIl4Ma2XiifW-cyqdIE='),
+    ('https://media.gettyimages.com/id/1093224722/pt/foto/beautiful-elderly-woman-having-a-nostalgic-moment-while-drinking-a-hot-drink-from-a-cup.jpg?s=612x612&w=0&k=20&c=u-JnfJDr5vAbD9NVFOIe1jWvtELnsecaHxfiffndlwo='),
+    ('https://media.gettyimages.com/id/170006586/pt/foto/t-shirt-preta-sobre-fundo-branco.jpg?s=612x612&w=0&k=20&c=sYBL6nKBgGkQXSH_JWStYTctVdKBpSrLKGZXnk5r2ks='),
+    ('https://media.gettyimages.com/id/185258081/pt/foto/rir-jovem.jpg?s=612x612&w=0&k=20&c=rKK_hMhWsgC9pRScdX6vV3mmmlgA4bwBjjo6vRwQI0g='),
+    ('https://media.gettyimages.com/id/1328184350/pt/foto/black-cardigan.jpg?s=612x612&w=0&k=20&c=yykW9BJrBD7CW4oE0Cu9WSZKL_dG9t6fzyPqHUhSws4='),
+    ('https://media.gettyimages.com/id/154960459/pt/foto/blue-sweat-shirt-no-fundo-branco.jpg?s=612x612&w=0&k=20&c=qtaEPJrCj8EmRnxbzBLIm-3sU1NRr_3CX9hLjw1vwrI='),
+    ('https://media.gettyimages.com/id/157329645/pt/foto/caf%C3%A9-caf%C3%A9-preto-curto.jpg?s=612x612&w=0&k=20&c=UoAtcfM2FmyTV49SLdln5tcTJLdAHmbGx6xM9xBIXMo='),
+    ('https://media.gettyimages.com/id/998889692/pt/foto/liang-dao-chen.jpg?s=612x612&w=0&k=20&c=-H9foLgkZnZMxdd02muxZWHCtzOTxENtoO-aYjqJyvc='),
+    ('https://media.gettyimages.com/id/503109275/pt/foto/perfectly-folded-polo-stack.jpg?s=612x612&w=0&k=20&c=yN5OSLh6EbihOzBdWeSlyv5xRg0SJpqHULTh2-4cyfw='),
+    ('https://media.gettyimages.com/id/81849254/pt/foto/portrait-of-a-man-sweden.jpg?s=612x612&w=0&k=20&c=xX9bmeEoJwzWxSRCbx4ssVj7z2nTI7m20c8UWbEz9vg='),
+    ('https://media.gettyimages.com/id/1129165293/pt/foto/pink-u-shaped-memory-foam-travel-neck-pillow.jpg?s=612x612&w=0&k=20&c=rpCdnsjLwh7uDJB6PpjMy8HCAcESB1VHIpH2KE0-h3A='),
+    ('https://media.gettyimages.com/id/1091696968/pt/foto/killing-time-on-a-flight.jpg?s=612x612&w=0&k=20&c=EZK_8w3R2vy1UbuiwbyvBY8RHM88Fwjj_qPDK3njUjY='),
+    ('https://media.gettyimages.com/id/1459114302/pt/foto/photo-of-empty-coffee-cups-with-saucers-lithuania.jpg?s=612x612&w=0&k=20&c=qyqhUsuDkgBzmkL8p7eBe7TLrRsH7GRlFh7DdY0LOIA='),
+    ('https://media.gettyimages.com/id/1306752697/pt/foto/close-up-of-coffee-cup-on-table.jpg?s=612x612&w=0&k=20&c=wOd52EuuAEcSOoIk8nQMYYaRcITqN4Y36TS_JAydTgY='),
+    ('https://media.gettyimages.com/id/1327607684/pt/foto/empty-ceramic-plate-on-marble-background.jpg?s=612x612&w=0&k=20&c=llVyrQuJxVH9Qze0oJ4LURztYEp8wm_nldKerFwgipM='),
+    ('https://media.gettyimages.com/id/1392769009/pt/foto/beautiful-ceramic-empty-table-setting.jpg?s=612x612&w=0&k=20&c=TxiXWVndxYgr21BgdxTgeHB-oCJtSJBGu7Qrbgxs3S0='),
+    ('https://media.gettyimages.com/id/1212476432/pt/foto/orange-eco-bags-eco-cloth-bags-to-reduce-global-warming-shopping-bags-eco-burlap-woven-fabric.jpg?s=612x612&w=0&k=20&c=uwg5lWgei-ki8rXHuEQwHV2p8_tZLelahfjYYoKE11o='),
+    ('https://media.gettyimages.com/id/1249520595/pt/foto/female-wearing-a-shooping-organig-tote-bag-mock-up.jpg?s=612x612&w=0&k=20&c=myQPbpHGopgfuLzW00Zxj-KGSp51EcK0drkhDnK7Eh8='),
+    ('https://media.gettyimages.com/id/1306709207/pt/vetorial/black-hoodie-vector.jpg?s=612x612&w=0&k=20&c=1jZUp2akVuK5SFQjU1ojVsAapndw-Qc_qWl2Bvt8F8g='),
+    ('https://media.gettyimages.com/id/1253049022/pt/foto/close-up-photo-of-trendy-cheerful-woman-wearing-hoody.jpg?s=612x612&w=0&k=20&c=iefAhE4_j3KgKKJGLLPPSjUY-dlTYtXDZGelQh7NkWM='),
+    ('https://media.gettyimages.com/id/1304106893/pt/foto/cup-of-chai-latte-on-blue-background.jpg?s=612x612&w=0&k=20&c=YZ7-XbX9PVeS78quLzRlqrVH1YcCRoZmJT0NiY5RvUA='),
+    ('https://media.gettyimages.com/id/1027165934/pt/foto/aerial-view-of-various-coffee.jpg?s=612x612&w=0&k=20&c=xb9ZAalIZjiPiuaFTIaK-8uonkp5uUXQTw8XMiBZmys='),
+    ('https://media.gettyimages.com/id/486988038/pt/vetorial/t-shirt-em-branco.jpg?s=612x612&w=0&k=20&c=U93IAc0O21SNeL3m7-Pq9xsLd3YBjvejRTQ85hAkro8='),
+    ('https://media.gettyimages.com/id/959801420/pt/foto/top-view-colourful-t-shirt-collage-and-compose.jpg?s=612x612&w=0&k=20&c=95h9SUfl85Nwk_YMpLjN55DZ5DSooVIszHhS6sKcxaU='),
+    ('https://media.gettyimages.com/id/150640651/pt/foto/happy-couple-doing-nordic-walking.jpg?s=612x612&w=0&k=20&c=Zz7aSKn8_IbOw4QppNm7-AwKvnLYwhvnNlpIdc5OYKM='),
+    ('https://media.gettyimages.com/id/1131519052/pt/foto/elderly-woman-feeling-very-cold-due-to-freezing-temperatures.jpg?s=612x612&w=0&k=20&c=zpj-vj5ag69DWumCcthKoWf2kEO2mMTdKWbAHmxmGEg='),
+    ('https://media.gettyimages.com/id/901870008/pt/foto/white-bowl.jpg?s=612x612&w=0&k=20&c=QfO6fwINAfA1AQDP-x9pFTx9PLxBCFa3A8pPWK1gIW0='),
+    ('https://media.gettyimages.com/id/919666108/pt/foto/two-fresh-salad-bowls.jpg?s=612x612&w=0&k=20&c=RQDENX6RUyMdcBYRR4q84TzCUENrIyL6oiWTUnSZ65A='),
+    ('https://media.gettyimages.com/id/1272309995/pt/foto/handmade-minimal-ceramics.jpg?s=612x612&w=0&k=20&c=yDhbC1TZiabjp-NVmErAkoQUIhtuC-qmGy0CDC6YJpQ='),
+    ('https://media.gettyimages.com/id/1174194014/pt/foto/dried-flowers-in-a-white-antique-vase-on-the-window.jpg?s=612x612&w=0&k=20&c=YNUUMoBG1ShnSnzCg3VDxeH-gNG2vbphNpiP3tN7DmQ=');
 
 
 -- Insert data into the Product_Has_Image table
+INSERT INTO Product_Has_Image(Pname,ID)
+VALUES
+    ('Mug',1),
+    ('Mug',2),
+    ('Cup',3),
+    ('Cup',4),
+    ('T-Shirt',5),
+    ('T-Shirt',6),
+    ('Hoodie',7),
+    ('Hoodie',8),
+    ('Travel Mug',9),
+    ('Travel Mug',10),
+    ('Teacup',11),
+    ('Teacup',12),
+    ('V-Neck T-Shirt',13),
+    ('V-Neck T-Shirt',14),
+    ('Zip-Up Hoodie',15),
+    ('Zip-Up Hoodie',16),
+    ('Espresso Cup',17),
+    ('Espresso Cup',18),
+    ('Polo Shirt',19),
+    ('Polo Shirt',20),
+    ('Travel Pillow',21),
+    ('Travel Pillow',22),
+    ('Coffee Mug Set',23),
+    ('Coffee Mug Set',24),
+    ('Ceramic Plate',25),
+    ('Ceramic Plate',26),
+    ('Canvas Tote Bag',27),
+    ('Canvas Tote Bag',28),
+    ('Pullover Hoodie',29),
+    ('Pullover Hoodie',30),
+    ('Latte Mug',31),
+    ('Latte Mug',32),
+    ('Graphic T-Shirt',33),
+    ('Graphic T-Shirt',34),
+    ('Fleece Jacket',35),
+    ('Fleece Jacket',36),
+    ('Soup Bowl',37),
+    ('Soup Bowl',38),
+    ('Ceramic Vase',39),
+    ('Ceramic Vase',40);
 
 
 -- Insert data into the Review table
@@ -213,3 +297,4 @@ VALUES
     ('jane_smith', 'Travel Mug'),
     ('alice_wonderland', 'Cup'),
     ('bob_smith', 'Mug');
+
