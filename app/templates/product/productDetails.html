@@ -100,4 +100,48 @@
 
 </main>
 
+<div class="container mt-5">
+     <h2>Write a review.</h2>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+            Open Review Form
+        </button>
+</div>
+
+<div class="modal" tabindex="-1" id="reviewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Write a review.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{name}}/review" method="POST">
+                    <div class="mb-3">
+                        <label for="userReview" class="form-label">Your Review:</label>
+                        <textarea class="form-control" id="userReview" name="userReview" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-2 mb-2">
+    <h1>Reviews:</h1>
+    {% for review in reviews %}
+    <hr>
+    <div class="container mt-2 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Product Review</h5>
+                <p class="card-text">
+                    {{ review.ReviewBody }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 {% include 'footer.html' %} {% endblock %}

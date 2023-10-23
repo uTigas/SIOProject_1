@@ -30,7 +30,7 @@ def productDetails(name):
     if request.method=="POST":
         flash("Item successfully added to the Cart!","info")
         
-    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2])
+    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2],reviews=review(name=name))
 
 
 @bp.route('/products', methods=('GET', 'POST'))
@@ -57,5 +57,36 @@ def products():
 
 
 @bp.route('/whishlist')
+@login_required
 def whishlist():
     return render_template('whishlist.html')
+
+@bp.route('/productDetails/<name>/review',methods=('GET', 'POST'))
+@login_required
+def review(name):
+    error = []
+    db=get_db()
+    if request.method == 'POST':
+        review = request.form['userReview']
+
+        if len(review) == 0:
+            error += ["Empty review"]
+
+        if len(error) == 0:
+            try:
+                db.execute(
+                    "INSERT INTO Review (PName, ReviewBody) VALUES (?, ?)",
+                    (name,review)
+                )
+                db.commit()
+            except db.IntegrityError:
+                error += [f"Product {name} doesnt exist."]
+            else:
+                return redirect(url_for("shop.products"))
+            
+        for m in error:
+            flash(m,'danger')
+
+    return [dict(row) for row in db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall()]
+    
+    
