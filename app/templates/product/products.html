@@ -1,11 +1,4 @@
-{% extends 'base.html' %} 
-
-{% block main %}
-
-{% from 'navbar.html' import navbar %}
-{{ navbar('shop.products') }}
-
-{% include 'flash.html' %}
+{% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.products') }} {% include 'flash.html' %}
 
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -45,6 +38,4 @@
         </div>
 </section>
 
-{% include 'footer.html' %}
-
-{% endblock %}
+{% include 'footer.html' %} {% endblock %}

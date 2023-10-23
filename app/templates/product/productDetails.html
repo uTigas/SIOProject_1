@@ -1,16 +1,5 @@
-{% extends 'base.html' %} 
-
-{% block head %} 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/productDetails.css') }}">
-{% endblock %} 
-
-{% block main %}
-
-
-{% from 'navbar.html' import navbar %}
-{{ navbar('shop.productsDetails') }}
-
-{% include 'flash.html' %}
+{% extends 'base.html' %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/productDetails.css') }}"> {% endblock %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.productsDetails') }} {% include 'flash.html' %}
 
 <header class="bg-dark py-1 mb-5">
     <div class="container2 px-4 px-lg-5 my-3">
@@ -90,6 +79,4 @@
 
 </main>
 
-{% include 'footer.html' %}
-
-{% endblock %}
+{% include 'footer.html' %} {% endblock %}
