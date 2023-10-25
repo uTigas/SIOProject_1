@@ -30,7 +30,7 @@ def productDetails(name):
     if request.method=="POST":
         flash("Item successfully added to the Cart!","info")
         
-    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2],reviews=review(name=name))
+    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2],reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall())
 
 
 @bp.route('/products', methods=('GET', 'POST'))
@@ -82,7 +82,7 @@ def review(name):
             except db.IntegrityError:
                 error += [f"Product {name} doesnt exist."]
             else:
-                return redirect(url_for("shop.products"))
+                return redirect(url_for("shop.productDetails",name=name))
             
         for m in error:
             flash(m,'danger')
