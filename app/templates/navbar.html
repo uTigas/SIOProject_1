@@ -1,50 +1,42 @@
-{% macro navbar(curpage,pagedic=(('shop.index','Home','nologin'),('shop.products','Produtos','nologin'),('shop.whishlist','Wishlist','login'))) -%}
+{% macro navbar(curpage,pagedic=(('shop.index','Home','nologin'),('shop.products','Produtos','nologin'),('shop.wishlist','Wishlist','login'))) -%}
 <!--Navbar -->
 <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
     <div class="container-fluid ps-5 pe-5">
 
         <div class="d-flex flex-row flex-fill  navbar-nav ">
-            {% for item in pagedic %}
-                {% if g.user or item[2] == 'nologin' %}
-                    {% if curpage != item[0] %}
-                            <a class="nav-link ps-3 fs-4 fw-bold" href="{{ url_for(item[0]) }}">{{ item[1] }} </a>
-                    {% else %}
-                            <a class="nav-link active ps-3 fs-4 fw-bold" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+            {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %} {% if curpage != item[0] %}
+            <a class="nav-link ps-3 fs-4 fw-bold" href="{{ url_for(item[0]) }}">{{ item[1] }} </a> {% else %}
+            <a class="nav-link active ps-3 fs-4 fw-bold" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a> {% endif %} {% endif %} {% endfor %}
         </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 {% if g.user %}
-                    <div class="row">
-                        <div class="col">
-                            <p class="fs-4 m-0">{{g.user['Username']}}</p>
-                        </div>
-                        <div class="col">
-                            <a class="btn btn-outline-danger end-0 position-absolute me-3" href="{{ url_for('auth.logout') }}">Logout</a>
-                        </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="fs-4 m-0">{{g.user['Username']}}</p>
                     </div>
+                    <div class="col">
+                        <a class="btn btn-outline-danger end-0 position-absolute me-3" href="{{ url_for('auth.logout') }}">Logout</a>
+                    </div>
+                </div>
                 {% else %}
-                    <div class="row">
-                        <div class="col">
-                            <p class="fs-4 m-0">Not logged in</p>
-                        </div>
-                        <div class="col">
-                            <a class="btn btn-outline-success end-0 position-absolute me-3" href="{{ url_for('auth.login') }}">Login</a>
-                        </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="fs-4 m-0">Not logged in</p>
                     </div>
+                    <div class="col">
+                        <a class="btn btn-outline-success end-0 position-absolute me-3" href="{{ url_for('auth.login') }}">Login</a>
+                    </div>
+                </div>
                 {% endif %}
                 <hr>
                 <form class="d-flex mt-3" role="search">
@@ -52,19 +44,15 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    {% for item in pagedic %}
-                        {% if g.user or item[2] == 'nologin' %}
-                            {% if curpage != item[0] %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
-                                </li>
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
-                                </li>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
+                    {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %} {% if curpage != item[0] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                    </li>
+                    {% endif %} {% endif %} {% endfor %}
                 </ul>
             </div>
         </div>

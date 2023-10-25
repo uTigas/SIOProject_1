@@ -40,8 +40,12 @@
 
 
     <!-- Right Column -->
-    <div class="right-column">
-
+    <div class="right-column ">
+        <div class="product-price my-4">
+            <form action="/productDetails/{{ name }}" method="post">
+                <button class="btn btn-primary"><i class="fa fa-plus"></i> | Add to Wishlist</button>
+                <input type="hidden" name="wish" value="true"> </form>
+        </div>
         <!-- Product Description -->
         <div class="product-description">
             <span>{{ category }}</span>
@@ -92,17 +96,19 @@
         <!-- Product Pricing -->
         <div class="product-price">
             <span>{{price}}€</span>
-            <form action="/productDetails/product?name={{ name }}" method="post">
-                <button href="/home" class="border-0 cart-btn">Add to cart</button>
+            <form action="/productDetails/{{ name }}" method="post">
+                <input type="hidden" name="cart" value="true"> </form>
+            <button href="/home" class="border-0 cart-btn">Add to cart</button>
             </form>
         </div>
+
     </div>
 
 </main>
 
 <div class="container mt-5">
-     <h2>Write a review.</h2>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+    <h2>Write a review.</h2>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reviewModal">
             Open Review Form
         </button>
 </div>
@@ -129,7 +135,7 @@
 
 <div class="container mt-2 mb-2">
     <h1>Reviews:</h1>
-    {% for review in reviews %}
+    {% if reviews %} {% for review in reviews %}
     <hr>
     <div class="container mt-2 mb-2">
         <div class="card">
@@ -140,8 +146,11 @@
                 </p>
             </div>
         </div>
-    </div>
-    {% endfor %}
+    </div> {% endfor %} {% else %}
+    <p>No reviews available.</p>
+    {% endif %}
+
 </div>
+
 
 {% include 'footer.html' %} {% endblock %}

@@ -12,7 +12,7 @@ bp = Blueprint('shop', __name__)
 def index():
     return render_template('index.html')
 
-@bp.route('/productDetails/<name>')
+@bp.route('/productDetails/<name>', methods=('GET', 'POST'))
 def productDetails(name):
     db=get_db()
     try:
@@ -28,14 +28,26 @@ def productDetails(name):
         flash(f"Product {name} does not exist.",'danger')
         return products()  
     if request.method=="POST":
-        flash("Item successfully added to the Cart!","info")
-        
+        if request.form.get("cart"):
+            flash("Item successfully added to the Cart!","info")
+        else:
+            try:
+                db.execute(
+                    "INSERT INTO Wishlist (Client, Pname) VALUES (?, ?)",
+                    (g.user['Username'],name)
+                )
+                db.commit()
+                flash("Item successfully added to the Wishlist!","info")
+            except db.IntegrityError:
+                flash("Item already in Wishlist!","info")
+
     return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2],reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall())
 
 
 @bp.route('/products', methods=('GET', 'POST'))
 def products():
     if request.method == 'GET':
+        images=dict()
         db=get_db()
         if request.args.get("category")==None:   
             items=db.execute("SELECT * FROM Product").fetchall()
@@ -45,8 +57,10 @@ def products():
             items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name",(request.args.get("category"),)).fetchall()
             categories=db.execute("SELECT * FROM Category").fetchall()
             category=request.args.get("category")   
-            
-        return render_template('product/products.html',search="", category=category,categories=categories, products=items,title="Merch Store")
+        for item in items:
+            images[item[0]]=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(item[0],)).fetchone()
+           
+        return render_template('product/products.html',images=images, search="", category=category,categories=categories, products=items,title="Merch Store")
    
     if request.method=="POST":
         db=get_db()
@@ -56,10 +70,21 @@ def products():
         return render_template('product/products.html',search=request.form.get("input"),categories=categories, products=items,title="Merch Store")
 
 
-@bp.route('/whishlist')
+@bp.route('/wishlist')
 @login_required
-def whishlist():
-    return render_template('whishlist.html')
+def wishlist():
+    if request.method == 'GET':
+        images=dict()
+        items=[]
+        db=get_db()
+        products=db.execute("SELECT * FROM Wishlist Where Client=?",(g.user['Username'] ,)).fetchall()
+        for p in products:
+            items.append(db.execute("SELECT * FROM Product Where Name=?",(p[1],)).fetchall())
+        for item in items:
+            images[item[0][0]] = db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?", (item[0][0],)).fetchone()
+           
+        return render_template('wishlist.html',images=images, products=items,title="Wishlist")
+   
 
 @bp.route('/productDetails/<name>/review',methods=('GET', 'POST'))
 @login_required

@@ -34,7 +34,7 @@
                 name="input" /> {% endif %}
             <button type="submit" class="btn btn-danger">
                 <i class="fas fa-search"></i>
-              </button>
+            </button>
         </form>
     </div>
 </div>
@@ -49,19 +49,19 @@
                 <div class="card h-100">
                     <div class="card">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://media.gettyimages.com/id/483960103/pt/foto/t-shirt-preta-em-branco-%C3%A0-frente-com-tra%C3%A7ado-de-recorte.jpg?s=612x612&w=0&k=20&c=2-eQtlzB6Cn_GarkQBJbwQjevDHSnKO3D6HzQiaP5F4=" alt="..." />
+                        <img class="card-img-top " style="height: 220px; overflow: hidden; " src="{{ images[product.name].link }} " alt="... " />
                         <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
+                        <div class="card-body p-4 ">
+                            <div class="text-center ">
                                 <!-- Product name-->
-                                <h5 class="fw-bolder">{{product.name}}</h5>
+                                <h5 class="fw-bolder ">{{product.name}}</h5>
                                 <!-- Product price-->
                                 {{product.price}}€
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/productDetails/{{product.name}}">View Details</a></div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="text-center "><a class="btn btn-outline-dark mt-auto " href="/productDetails/{{product.name}} ">View Details</a></div>
                         </div>
                     </div>
                 </div>
