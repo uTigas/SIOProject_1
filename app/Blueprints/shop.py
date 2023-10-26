@@ -100,8 +100,8 @@ def review(name):
         if len(error) == 0:
             try:
                 db.execute(
-                    "INSERT INTO Review (PName, ReviewBody) VALUES (?, ?)",
-                    (name,review)
+                    "INSERT INTO Review (Author,PName, ReviewBody) VALUES (?, ?, ?)",
+                    (g.user['Username'],name,review)
                 )
                 db.commit()
             except db.IntegrityError:

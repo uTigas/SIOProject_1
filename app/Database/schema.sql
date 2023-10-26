@@ -48,6 +48,7 @@ DROP TABLE IF EXISTS Wishlist;
     CREATE TABLE Review
     (  
         ID INTEGER primary key AUTOINCREMENT,
+        Author varchar(50) not null,
         PName varchar(50) not null ,
         ReviewBody varchar(400) not null,
         FOREIGN KEY (Pname) REFERENCES Product(Name)
