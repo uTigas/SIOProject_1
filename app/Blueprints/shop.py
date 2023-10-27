@@ -70,13 +70,17 @@ def products():
         return render_template('product/products.html',search=request.form.get("input"),categories=categories, products=items,title="Merch Store")
 
 
-@bp.route('/wishlist')
+@bp.route('/wishlist',methods=("GET","POST"))
 @login_required
 def wishlist():
-    if request.method == 'GET':
+    if request.method == 'GET' or request.method =="POST":
         images=dict()
         items=[]
         db=get_db()
+        
+        if request.method =="POST":
+            db.execute("DELETE FROM Wishlist Where Client=? AND Pname=?",(g.user["Username"],request.form.get("product"),))
+            db.commit()
         products=db.execute("SELECT * FROM Wishlist Where Client=?",(g.user['Username'] ,)).fetchall()
         for p in products:
             items.append(db.execute("SELECT * FROM Product Where Name=?",(p[1],)).fetchall())
@@ -84,7 +88,6 @@ def wishlist():
             images[item[0][0]] = db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?", (item[0][0],)).fetchone()
            
         return render_template('wishlist.html',images=images, products=items,title="Wishlist")
-   
 
 @bp.route('/productDetails/<name>/review',methods=('GET', 'POST'))
 @login_required

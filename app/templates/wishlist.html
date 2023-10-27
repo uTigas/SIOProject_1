@@ -9,6 +9,9 @@
             <div class="col mb-5">
                 <div class="card h-100">
                     <div class="card">
+                        <form action="/wishlist" method="POST">
+                            <button name="product" value="{{product[0].name}}" type="submit" class="btn btn-danger w-25 ms-1 my-1"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                        </form>
                         <!-- Product image-->
                         <img class="card-img-top" style="height: 220px; overflow: hidden;" src="{{ images[product[0].name].link }}" alt="...">
                         <!-- Product details-->
