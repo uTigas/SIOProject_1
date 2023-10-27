@@ -17,11 +17,11 @@ def productDetails(name):
     db=get_db()
     try:
         query=db.execute( "SELECT * FROM Product WHERE Name=?",(name,))
-        query=query.fetchall()
+        query=query.fetchone()
         if len(query)==0:
             flash(f"Product {name} does not exist.",'danger')
             return products()  
-        category=db.execute("Select CName from Category_Has_Product WHERE PName=?",(query[0][0],)).fetchone()
+        category=db.execute("Select CName from Category_Has_Product WHERE PName=?",(query[0],)).fetchone()
         images=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(name,)).fetchall()
 
     except db.IntegrityError:
@@ -41,7 +41,7 @@ def productDetails(name):
             except db.IntegrityError:
                 flash("Item already in Wishlist!","info")
 
-    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,name=query[0][0],description=query[0][1],price=query[0][2],reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall())
+    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,product=query,reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall())
 
 
 @bp.route('/products', methods=('GET', 'POST'))
@@ -117,4 +117,7 @@ def review(name):
 
     return [dict(row) for row in db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall()]
     
-    
+@bp.route("/cart",methods=("GET","POST"))
+@login_required
+def cart():
+    return render_template("buy/cart.html")

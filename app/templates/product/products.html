@@ -1,13 +1,11 @@
 {% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.products') }} {% include 'flash.html' %}
 
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">DETI Merch Store</h1>
-            <p class="lead fw-normal text-white mb-0 ">- Where perfection becomes <i><b class="text-warning">empirical</b></i> -</p>
-        </div>
-    </div>
-</header>
+<div class="text-center banner-container text-white" style="background-image: url('https://scontent.fopo5-2.fna.fbcdn.net/v/t39.30808-6/379721963_802278048565222_2757736403566309538_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5CEWwQSguU4AX-8R1i0&_nc_oc=AQkln2smmXYLABR9MHfYYD12UQQlmq9ddisNqeOkuvv80nK9MR5pUOBZ0UcM7-LmaOxRsdCX0w_9VR1zcj4v8NWf&_nc_ht=scontent.fopo5-2.fna&oh=00_AfA8pkSmwVDTEA3Os5n2XTCKlhlU00CyLqPgYuGCZZKbKQ&oe=6541B2E0'); background-size: 100% auto;width:100%; height:300px">
+    <h1 class="display-4 fw-bolder ba">DETI Merch Store</h1>
+    <p class="lead fw-normal text-white mb-0">- Where perfection becomes <i><b class="text-warning">empirical</b></i> -</p>
+</div>
+
+
 <div class="container px-4 px-lg-5 mt-2">
     <div class="row align-items-center">
         <div style="display: inline-block;">
@@ -69,5 +67,31 @@
             {% endfor %}
         </div>
 </section>
-
+<style>
+    .banner-container {
+        position: relative;
+        background-image: url('your-image-url.jpg');
+        background-size: cover;
+        width: 100%;
+        height: 300px;
+    }
+    
+    .banner-container::before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Adjust the transparency for the background here */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .banner-container h1,
+    .banner-container p {
+        position: relative;
+        z-index: 1;
+        /* This ensures the text is not transparent */
+    }
+</style>
 {% include 'footer.html' %} {% endblock %}

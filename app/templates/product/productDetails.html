@@ -1,14 +1,9 @@
 {% extends 'base.html' %} {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/productDetails.css') }}"> {% endblock %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.productsDetails') }} {% include 'flash.html' %}
 
-<header class="bg-dark py-1 mb-5">
-    <div class="container2 px-4 px-lg-5 my-3">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">DETI Merch Store</h1>
-            <p class="lead fw-normal text-white mb-0 ">Where perfection becomes <i><b class="text-warning">empirical</b></i></p>
-        </div>
-    </div>
-</header>
+<div class="text-center banner-container text-white" style="background-image: url('https://scontent.fopo5-2.fna.fbcdn.net/v/t39.30808-6/379721963_802278048565222_2757736403566309538_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5CEWwQSguU4AX-8R1i0&_nc_oc=AQkln2smmXYLABR9MHfYYD12UQQlmq9ddisNqeOkuvv80nK9MR5pUOBZ0UcM7-LmaOxRsdCX0w_9VR1zcj4v8NWf&_nc_ht=scontent.fopo5-2.fna&oh=00_AfA8pkSmwVDTEA3Os5n2XTCKlhlU00CyLqPgYuGCZZKbKQ&oe=6541B2E0'); background-size: 100% auto;width:100%; height:200px">
+    <h1 class="display-4 fw-bolder">Product Details</h1>
+</div>
 
 <main class="container2">
 
@@ -50,20 +45,29 @@
         </div>
         <!-- Product Description -->
         <div class="product-description">
-            <span>{{ category }}</span>
-            <h1>{{ name }}</h1>
-            <p>{{ description }}</p>
+            <span>{{ product.category }}</span>
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
         </div>
 
         <!-- Product Pricing -->
         <div class="product-price">
-            <span>{{price}}€</span>
+            <span>{{product.price}}€</span>
             <form action="/productDetails/{{ name }}" method="post">
                 <input type="hidden" name="cart" value="true"> </form>
             <button href="/home" class="border-0 cart-btn">Add to cart</button>
             </form>
         </div>
-
+        {% if product.qty>0 %}
+        <!-- Product Availability -->
+        <div class="product-price my-3 ">
+            <span style="font-size: medium; font-style: italic;">Product in stock - <i class="fa-solid fa-check" style="color: #26a269;"></i> ({{product.qty}} units left!)</span>
+        </div>
+        {% else %}
+        <div class="product-price my-3 " style="font-size: small;">
+            <span style="font-style: italic;">Product sold Out  - <i class="fa-solid fa-x" style="color: #a22e26;"></i></span>
+        </div>
+        {% endif %}
     </div>
 
 </main>
@@ -109,5 +113,31 @@
 
 </div>
 
-
+<style>
+    .banner-container {
+        position: relative;
+        background-image: url('your-image-url.jpg');
+        background-size: cover;
+        width: 100%;
+        height: 300px;
+    }
+    
+    .banner-container::before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Adjust the transparency for the background here */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .banner-container h1,
+    .banner-container p {
+        position: relative;
+        z-index: 1;
+        /* This ensures the text is not transparent */
+    }
+</style>
 {% include 'footer.html' %} {% endblock %}
