@@ -1,40 +1,61 @@
-{% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.products') }} {% include 'flash.html' %}
+{% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.products') }} {%
+include 'flash.html' %}
 
-<div class="text-center banner-container text-white" style="background-image: url('https://scontent.fopo5-2.fna.fbcdn.net/v/t39.30808-6/379721963_802278048565222_2757736403566309538_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5CEWwQSguU4AX-8R1i0&_nc_oc=AQkln2smmXYLABR9MHfYYD12UQQlmq9ddisNqeOkuvv80nK9MR5pUOBZ0UcM7-LmaOxRsdCX0w_9VR1zcj4v8NWf&_nc_ht=scontent.fopo5-2.fna&oh=00_AfA8pkSmwVDTEA3Os5n2XTCKlhlU00CyLqPgYuGCZZKbKQ&oe=6541B2E0'); background-size: 100% auto;width:100%; height:300px">
+<div class="text-center banner-container text-white"
+    style="background-image: url('https://scontent.fopo5-2.fna.fbcdn.net/v/t39.30808-6/379721963_802278048565222_2757736403566309538_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5CEWwQSguU4AX-8R1i0&_nc_oc=AQkln2smmXYLABR9MHfYYD12UQQlmq9ddisNqeOkuvv80nK9MR5pUOBZ0UcM7-LmaOxRsdCX0w_9VR1zcj4v8NWf&_nc_ht=scontent.fopo5-2.fna&oh=00_AfA8pkSmwVDTEA3Os5n2XTCKlhlU00CyLqPgYuGCZZKbKQ&oe=6541B2E0'); background-size: 100% auto;width:100%; height:300px">
     <h1 class="display-4 fw-bolder ba">DETI Merch Store</h1>
-    <p class="lead fw-normal text-white mb-0">- Where perfection becomes <i><b class="text-warning">empirical</b></i> -</p>
+    <p class="lead fw-normal text-white mb-0">- Where perfection becomes <i><b class="text-warning">empirical</b></i> -
+    </p>
 </div>
 
 
 <div class="container px-4 px-lg-5 mt-2">
-    <div class="row align-items-center">
-        <div style="display: inline-block;">
-            <h1>{{category}}</h1>
+    <div class="mt-2 mb-2"></div>
+    <form action="" method="post">
+        <div class="row align-items-start justify-content-between">
+            <div class="col-3">
+                <span class="fs-4">Category: </span>
+                <select id="category" name="category" class="form-select" onchange="this.form.submit()" >
+                    <option value="">All</option>
+                    {% for cat in categories %}
+                        {% if cat.name == category %}
+                        <option value="{{cat.name}}" selected>{{cat.name}}</option>
+                        {% else %}
+                        <option value="{{cat.name}}" >{{cat.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <hr>
+                <div class="mb-3">
+                    <label for="minPrice" class="form-label">Select Minimum Price:</label>
+                    <input type="range" class="form-range" id="minPrice" min="{{MIN_PRICE}}" max="{{MAX_PRICE}}" step="1" value="{{minPrice}}"
+                        name="minPrice"  onchange="this.form.submit()">
+                </div>
+                <div class="mb-3">
+                    <label for="maxPrice" class="form-label">Select Maximum Price:</label>
+                    <input type="range" class="form-range" id="maxPrice" min="{{MIN_PRICE}}" max="{{MAX_PRICE}}" step="1" value="{{maxPrice}}"
+                        name="maxPrice"  onchange="this.form.submit()">
+                </div>
+                <div class="mb-3">
+                    <p>Selected Price Range: $<span id="selectedMinPrice">{{minPrice}}</span> - $<span
+                            id="selectedMaxPrice">{{maxPrice}}</span></p>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <div class="container input-group mt-2 ">
+                    {% if search != "" %}
+                    <input type="search" placeholder="Search for product" value="{{search}}" id="input" class="form-control"
+                        name="input" />
+                    {% else %}
+                    <input type="search" placeholder="Search for Product" id="input" class="form-control" name="input" />
+                    {% endif %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="btn-group" style="display: inline-block;">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Category
-            </button>
-            <ul class="dropdown-menu">
-                {% for category in categories %}
-                <li><a class="dropdown-item" href="/products?category={{category.name}}">{{category.name}}</a></li>
-                {% endfor %}
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/products">All</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="input-group mt-2 ">
-        <form method="post" style="display: inline-flex;">
-            {% if search != "" %} <input type="search" placeholder="Search for product" value="{{search}}" id="form1" class="form-control" name="input" /> {% else %} <input type="search" placeholder="Search for Product" id="form1" class="form-control"
-                name="input" /> {% endif %}
-            <button type="submit" class="btn btn-danger">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-    </div>
+    </form>
 </div>
 
 
@@ -47,7 +68,8 @@
                 <div class="card h-100">
                     <div class="card">
                         <!-- Product image-->
-                        <img class="card-img-top " style="height: 220px; overflow: hidden; " src="{{ images[product.name].link }} " alt="... " />
+                        <img class="card-img-top " style="height: 220px; overflow: hidden; "
+                            src="{{ images[product.name].link }} " alt="... " />
                         <!-- Product details-->
                         <div class="card-body p-4 ">
                             <div class="text-center ">
@@ -59,7 +81,8 @@
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
-                            <div class="text-center "><a class="btn btn-outline-dark mt-auto " href="/productDetails/{{product.name}} ">View Details</a></div>
+                            <div class="text-center "><a class="btn btn-outline-dark mt-auto "
+                                    href="/productDetails/{{product.name}} ">View Details</a></div>
                         </div>
                     </div>
                 </div>
@@ -75,7 +98,7 @@
         width: 100%;
         height: 300px;
     }
-    
+
     .banner-container::before {
         content: "";
         background-color: rgba(0, 0, 0, 0.5);
@@ -86,7 +109,7 @@
         width: 100%;
         height: 100%;
     }
-    
+
     .banner-container h1,
     .banner-container p {
         position: relative;
@@ -94,4 +117,19 @@
         /* This ensures the text is not transparent */
     }
 </style>
+
+<script>
+    const minPriceInput = document.getElementById('minPrice');
+    const maxPriceInput = document.getElementById('maxPrice');
+    const selectedMinPrice = document.getElementById('selectedMinPrice');
+    const selectedMaxPrice = document.getElementById('selectedMaxPrice');
+
+    minPriceInput.addEventListener('input', function () {
+        selectedMinPrice.textContent = minPriceInput.value;
+    });
+
+    maxPriceInput.addEventListener('input', function () {
+        selectedMaxPrice.textContent = maxPriceInput.value;
+    });
+</script>
 {% include 'footer.html' %} {% endblock %}

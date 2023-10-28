@@ -51,35 +51,85 @@ def productDetails(name):
                            color=True,
                            product=query,
                            reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall(),
-                           avg=int(avg['avg']*100)/100)
+                           avg=int(avg['avg']*100)/100,
+                           title="Product - " + name)
 
 
 @bp.route('/products', methods=('GET', 'POST'))
 def products():
     images=dict()
+    db=get_db()
+
+    category = None
+    minPrice = None
+    maxPrice = None
+    search = None
+    error = []
+
     if request.method == 'GET':
-        db=get_db()
-        if request.args.get("category")==None:   
-            items=db.execute("SELECT * FROM Product").fetchall()
-            categories=db.execute("SELECT * FROM Category").fetchall()
-            category="All"
-        else:
-            items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name",(request.args.get("category"),)).fetchall()
-            categories=db.execute("SELECT * FROM Category").fetchall()
-            category=request.args.get("category")   
-        for item in items:
-            images[item[0]]=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(item[0],)).fetchone()
-           
-        return render_template('product/products.html',images=images, search="", category=category,categories=categories, products=items,title="Merch Store")
-   
+        category = request.args.get("category")
+        minPrice = request.args.get("minPrice")
+        maxPrice = request.args.get("maxPrice")
+        search = request.args.get("input")
+
     if request.method=="POST":
-        db=get_db()
-        items = db.execute("SELECT * FROM Product WHERE Product.Name LIKE ?",
-                  (f"%{request.form.get('input')}%",)).fetchall()       
-        categories=db.execute("SELECT * FROM Category").fetchall()
-        for item in items:
-            images[item[0]]=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(item[0],)).fetchone()
-        return render_template('product/products.html',search=request.form.get("input"),categories=categories, products=items,title="Merch Store",images=images)
+        category = request.form.get("category")
+        minPrice = request.form.get("minPrice")
+        maxPrice = request.form.get("maxPrice")
+        search = request.form.get("input")
+
+    MIN_PRICE = int(db.execute("SELECT MIN(price) AS min_price FROM Product").fetchone()["min_price"])
+    MAX_PRICE = int(db.execute("SELECT MAX(price) AS max_price FROM Product").fetchone()["max_price"])
+
+    if minPrice is None:
+        minPrice = MIN_PRICE
+
+    if maxPrice is None:
+        maxPrice = MAX_PRICE
+
+    if search is None:
+        search = ""
+    search="%"+search+"%"
+    print(search)
+
+    try:
+        maxPrice = int(maxPrice)
+        minPrice = int(minPrice)
+    except:
+        minPrice = MIN_PRICE
+        maxPrice = MAX_PRICE
+        error += ["Invalid price"]
+
+    if minPrice > maxPrice:
+        minPrice = MIN_PRICE
+        maxPrice = MAX_PRICE
+        error += ["Minimum price bigger than maximum price."]
+
+    if category is None or len(category)==0:   
+        items=db.execute("SELECT * FROM Product Where Price >= ? AND Price <= ? and Product.Name LIKE ? ",(minPrice,maxPrice,search,)).fetchall()
+        category="All"
+    else:
+        items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name and Price >= ? AND Price <= ? and Product.Name LIKE ?",(category,minPrice,maxPrice,search,)).fetchall()
+
+    categories=db.execute("SELECT * FROM Category").fetchall()
+
+    for item in items:
+        images[item[0]]=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(item[0],)).fetchone()
+
+    for m in error:
+            flash(m,'danger')
+
+    return render_template('product/products.html',
+                               search=request.form.get("input"),
+                               categories=categories, 
+                               products=items,
+                               title="Merch Store",
+                               images=images,
+                               category=category,
+                               MIN_PRICE=MIN_PRICE,
+                               MAX_PRICE=MAX_PRICE,
+                               minPrice=minPrice,
+                               maxPrice=maxPrice)
 
 
 @bp.route('/wishlist',methods=("GET","POST"))
