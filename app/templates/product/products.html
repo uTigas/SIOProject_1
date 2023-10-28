@@ -10,7 +10,7 @@ include 'flash.html' %}
 
 
 <div class="container px-4 px-lg-5 mt-2">
-    <div class="mt-2 mb-2"></div>
+    <div class="mt-4 mb-4"></div>
     <form action="" method="post">
         <div class="row align-items-start justify-content-between">
             <div class="col-3">
@@ -25,7 +25,8 @@ include 'flash.html' %}
                         {% endif %}
                     {% endfor %}
                 </select>
-                <hr>
+            </div>
+            <div class="col-3">
                 <div class="mb-3">
                     <label for="minPrice" class="form-label">Select Minimum Price:</label>
                     <input type="range" class="form-range" id="minPrice" min="{{MIN_PRICE}}" max="{{MAX_PRICE}}" step="1" value="{{minPrice}}"
@@ -43,7 +44,7 @@ include 'flash.html' %}
             </div>
             <div class="col-3 d-flex justify-content-end">
                 <div class="container input-group mt-2 ">
-                    {% if search != "" %}
+                    {% if search != "" and search !=None %}
                     <input type="search" placeholder="Search for product" value="{{search}}" id="input" class="form-control"
                         name="input" />
                     {% else %}

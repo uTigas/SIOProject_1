@@ -90,7 +90,6 @@ def products():
     if search is None:
         search = ""
     search="%"+search+"%"
-    print(search)
 
     try:
         maxPrice = int(maxPrice)
