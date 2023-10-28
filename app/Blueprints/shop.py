@@ -104,6 +104,9 @@ def products():
         maxPrice = MAX_PRICE
         error += ["Minimum price bigger than maximum price."]
 
+    for m in error:
+            flash(m,'danger')
+
     if request.method=="POST":
         return redirect( url_for('shop.products', minPrice=minPrice,maxPrice=maxPrice,input=search,category=category) )
      
@@ -119,9 +122,6 @@ def products():
 
     for item in items:
         images[item[0]]=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(item[0],)).fetchone()
-
-    for m in error:
-            flash(m,'danger')
 
     return render_template('product/products.html',
                                search=search[1:-1],
