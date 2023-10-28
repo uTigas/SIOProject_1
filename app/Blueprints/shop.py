@@ -89,7 +89,7 @@ def products():
 
     if search is None:
         search = ""
-    search="%"+search+"%"
+    search=search
 
     try:
         maxPrice = int(maxPrice)
@@ -104,11 +104,16 @@ def products():
         maxPrice = MAX_PRICE
         error += ["Minimum price bigger than maximum price."]
 
-    if category is None or len(category)==0:   
+    if request.method=="POST":
+        return redirect( url_for('shop.products', minPrice=minPrice,maxPrice=maxPrice,input=search,category=category) )
+     
+    search = "%" + search + "%"
+    if category is None or len(category)==0 or category=="All" or category=="None":   
         items=db.execute("SELECT * FROM Product Where Price >= ? AND Price <= ? and Product.Name LIKE ? ",(minPrice,maxPrice,search,)).fetchall()
         category="All"
     else:
         items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name and Price >= ? AND Price <= ? and Product.Name LIKE ?",(category,minPrice,maxPrice,search,)).fetchall()
+
 
     categories=db.execute("SELECT * FROM Category").fetchall()
 
@@ -119,7 +124,7 @@ def products():
             flash(m,'danger')
 
     return render_template('product/products.html',
-                               search=request.form.get("input"),
+                               search=search[1:-1],
                                categories=categories, 
                                products=items,
                                title="Merch Store",
