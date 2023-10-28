@@ -158,28 +158,28 @@ VALUES
 
 
 -- Insert data into the Review table
-INSERT INTO Review (Author,PName, ReviewBody)
+INSERT INTO Review (Author,PName, ReviewBody, Score)
 VALUES
-    ("John Doe",'Mug', 'Love this mug!'),
-    ('Jane Smith','Cup', 'Great for hot beverages.'),
-    ('Clark Kent','T-Shirt', 'Comfortable and stylish.'),
-    ('Linda Parker','Hoodie', 'Keeps me warm in winter.'),
-    ('Michael Johnson','Travel Mug', 'Perfect for travel.'),
-    ('Linda Parker','Teacup', 'Elegant design.'),
-    ('Clark Kent','V-Neck T-Shirt', 'Nice fit.'),
-    ("John Doe",'Zip-Up Hoodie', 'Cozy and warm.'),
-    ('Jane Smith','Espresso Cup', 'Ideal for espresso lovers.'),
-    ('Linda Parker','Polo Shirt', 'Classic look.'),
-    ('Jane Smith','Travel Pillow', 'Very comfortable for long trips.'),
-    ('Clark Kent','Coffee Mug Set', 'Great value for the set.'),
-    ('Clark Kent','Ceramic Plate', 'Durable and versatile.'),
-    ("John Doe",'Canvas Tote Bag', 'Sturdy and eco-friendly.'),
-    ('Michael Johnson','Pullover Hoodie', 'My favorite hoodie.'),
-    ('Jane Smith','Latte Mug', 'Perfect size for lattes.'),
-    ('Michael Johnson','Graphic T-Shirt', 'Cool designs.'),
-    ("John Doe",'Fleece Jacket', 'Warm and stylish.'),
-    ('Jane Smith','Soup Bowl', 'Deep and practical.'),
-    ('Linda Parker','Ceramic Vase', 'Adds elegance to any room.');
+    ("John Doe",'Mug', 'Love this mug!',4),
+    ('Jane Smith','Cup', 'Great for hot beverages.',3),
+    ('Clark Kent','T-Shirt', 'Comfortable and stylish.',4),
+    ('Linda Parker','Hoodie', 'Keeps me warm in winter.',5),
+    ('Michael Johnson','Travel Mug', 'Perfect for travel.',3),
+    ('Linda Parker','Teacup', 'Elegant design.',2),
+    ('Clark Kent','V-Neck T-Shirt', 'Nice fit.',3),
+    ("John Doe",'Zip-Up Hoodie', 'Cozy and warm.',4),
+    ('Jane Smith','Espresso Cup', 'Ideal for espresso lovers.',4),
+    ('Linda Parker','Polo Shirt', 'Classic look.',4),
+    ('Jane Smith','Travel Pillow', 'Very comfortable for long trips.',3),
+    ('Clark Kent','Coffee Mug Set', 'Great value for the set.',3),
+    ('Clark Kent','Ceramic Plate', 'Durable and versatile.',4),
+    ("John Doe",'Canvas Tote Bag', 'Sturdy and eco-friendly.',5),
+    ('Michael Johnson','Pullover Hoodie', 'My favorite hoodie.',2),
+    ('Jane Smith','Latte Mug', 'Perfect size for lattes.',1),
+    ('Michael Johnson','Graphic T-Shirt', 'Cool designs.',3),
+    ("John Doe",'Fleece Jacket', 'Warm and stylish.',3),
+    ('Jane Smith','Soup Bowl', 'Deep and practical.',4),
+    ('Linda Parker','Ceramic Vase', 'Adds elegance to any room.',5);
 
 -- Insert data into the Category table
 INSERT INTO Category (Name, Description)

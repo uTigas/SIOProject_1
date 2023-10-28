@@ -27,6 +27,7 @@ def productDetails(name):
     except db.IntegrityError:
         flash(f"Product {name} does not exist.",'danger')
         return products()  
+    
     if request.method=="POST":
         if request.form.get("cart"):
             flash("Item successfully added to the Cart!","info")
@@ -40,14 +41,23 @@ def productDetails(name):
                 flash("Item successfully added to the Wishlist!","info")
             except db.IntegrityError:
                 flash("Item already in Wishlist!","info")
+                
+    avg = db.execute("SELECT AVG(Score) as avg FROM Review WHERE PName = ? GROUP BY PName",(name,)).fetchone()
 
-    return render_template('product/productDetails.html',images=images,category=category[0],size=True,color=True,product=query,reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall())
+    return render_template('product/productDetails.html',
+                           name=name,images=images,
+                           category=category[0],
+                           size=True,
+                           color=True,
+                           product=query,
+                           reviews=db.execute("SELECT * FROM Review WHERE PName = ?",(name,)).fetchall(),
+                           avg=int(avg['avg']*100)/100)
 
 
 @bp.route('/products', methods=('GET', 'POST'))
 def products():
+    images=dict()
     if request.method == 'GET':
-        images=dict()
         db=get_db()
         if request.args.get("category")==None:   
             items=db.execute("SELECT * FROM Product").fetchall()
@@ -67,13 +77,14 @@ def products():
         items = db.execute("SELECT * FROM Product WHERE Product.Name LIKE ?",
                   (f"%{request.form.get('input')}%",)).fetchall()       
         categories=db.execute("SELECT * FROM Category").fetchall()
-        return render_template('product/products.html',search=request.form.get("input"),categories=categories, products=items,title="Merch Store")
+        for item in items:
+            images[item[0]]=db.execute("SELECT * FROM Image JOIN Product_Has_Image ON Product_Has_Image.ID=Image.ID WHERE Pname=?",(item[0],)).fetchone()
+        return render_template('product/products.html',search=request.form.get("input"),categories=categories, products=items,title="Merch Store",images=images)
 
 
 @bp.route('/wishlist',methods=("GET","POST"))
 @login_required
 def wishlist():
-    if request.method == 'GET' or request.method =="POST":
         images=dict()
         items=[]
         db=get_db()
@@ -96,15 +107,23 @@ def review(name):
     db=get_db()
     if request.method == 'POST':
         review = request.form['userReview']
+        score = request.form['score']
 
         if len(review) == 0:
             error += ["Empty review"]
 
+        try:
+            score = int(score)
+            if score is None or score > 5 or score < 0:
+                error += ["Invalid score"]
+        except:
+            error += ["Invalid score"]
+            
         if len(error) == 0:
             try:
                 db.execute(
-                    "INSERT INTO Review (Author,PName, ReviewBody) VALUES (?, ?, ?)",
-                    (g.user['Username'],name,review)
+                    "INSERT INTO Review (Author,PName, ReviewBody,Score) VALUES (?, ?, ?, ?)",
+                    (g.user['Username'],name,review,score)
                 )
                 db.commit()
             except db.IntegrityError:

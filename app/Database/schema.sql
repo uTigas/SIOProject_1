@@ -51,6 +51,7 @@ DROP TABLE IF EXISTS Wishlist;
         Author varchar(50) not null,
         PName varchar(50) not null ,
         ReviewBody varchar(400) not null,
+        Score INTEGER not null,
         FOREIGN KEY (Pname) REFERENCES Product(Name)
 
     );
