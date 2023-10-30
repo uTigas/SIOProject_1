@@ -252,27 +252,27 @@ VALUES
     (10, 'Ceramic Vase', 3);
 
 -- Insert data into the Cart table
-INSERT INTO Cart (Client, PName)
+INSERT INTO Cart (Client, PName, Qty)
 VALUES
-    ('john_doe', 'Mug'),
-    ('john_doe', 'T-Shirt'),
-    ('jane_smith', 'Hoodie'),
-    ('jane_smith', 'Travel Mug'),
-    ('alice_wonderland', 'Teacup'),
-    ('alice_wonderland', 'V-Neck T-Shirt'),
-    ('bob_smith', 'Zip-Up Hoodie'),
-    ('bob_smith', 'Espresso Cup'),
-    ('sarah_connor', 'Polo Shirt'),
-    ('clark_kent', 'Travel Pillow'),
-    ('clark_kent', 'Coffee Mug Set'),
-    ('linda_parker', 'Ceramic Plate'),
-    ('linda_parker', 'Canvas Tote Bag'),
-    ('carol_jones', 'Pullover Hoodie'),
-    ('carol_jones', 'Latte Mug'),
-    ('mike_adams', 'Graphic T-Shirt'),
-    ('emma_smith', 'Fleece Jacket'),
-    ('emma_smith', 'Soup Bowl'),
-    ('sarah_connor', 'Ceramic Vase');
+    ('john_doe', 'Mug',1),
+    ('john_doe', 'T-Shirt',3),
+    ('jane_smith', 'Hoodie',4),
+    ('jane_smith', 'Travel Mug',2),
+    ('alice_wonderland', 'Teacup',1),
+    ('alice_wonderland', 'V-Neck T-Shirt',3),
+    ('bob_smith', 'Zip-Up Hoodie',2),
+    ('bob_smith', 'Espresso Cup',1),
+    ('sarah_connor', 'Polo Shirt',2),
+    ('clark_kent', 'Travel Pillow',5),
+    ('clark_kent', 'Coffee Mug Set',1),
+    ('linda_parker', 'Ceramic Plate',12),
+    ('linda_parker', 'Canvas Tote Bag',3),
+    ('carol_jones', 'Pullover Hoodie',1),
+    ('carol_jones', 'Latte Mug',8),
+    ('mike_adams', 'Graphic T-Shirt',4),
+    ('emma_smith', 'Fleece Jacket',1),
+    ('emma_smith', 'Soup Bowl',8),
+    ('sarah_connor', 'Ceramic Vase',3);
 
 -- Insert data into the Wishlist table
 INSERT INTO Wishlist (Client, PName)

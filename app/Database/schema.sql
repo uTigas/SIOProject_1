@@ -96,10 +96,13 @@ DROP TABLE IF EXISTS Wishlist;
 
     CREATE TABLE Cart
     (  
-        ID INTEGER primary key AUTOINCREMENT,
         Client varchar(50) not null,
         PName varchar(50) not null ,
+        Qty int not null ,
         FOREIGN KEY (Client) REFERENCES User(Username)
+        FOREIGN KEY (Pname) REFERENCES Product(Name)
+        primary key(Client,Pname) 
+
     );
 
     CREATE TABLE Wishlist

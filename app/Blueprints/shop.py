@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 
 from Blueprints.auth import login_required
 from Database.db import get_db
+import datetime
 
 bp = Blueprint('shop', __name__)
 
@@ -193,4 +194,37 @@ def review(name):
 @bp.route("/cart",methods=("GET","POST"))
 @login_required
 def cart():
-    return render_template("buy/cart.html")
+    db=get_db()
+    error=[]
+    if request.method == 'GET':
+        cart=dict()
+        cart["items"] = db.execute("SELECT Cart.Pname,Description,Price,Link,Cart.Qty FROM Cart JOIN Product_Has_Image ON Product_Has_Image.Pname=Cart.Pname JOIN Image ON Product_Has_Image.ID=Image.ID JOIN Product ON Cart.Pname=Name WHERE Client=? GROUP BY Cart.Pname, Description,Cart.Qty, Price",(g.user['Username'],)).fetchall()
+        cart["numItems"]=len(cart["items"])
+        cart["total"]=sum(c["price"] for c in cart["items"])
+    if request.method == 'POST':
+        form = request.form
+        if form["form_name"] == "checkout":
+            recipt = dict()
+            current_datetime = datetime.datetime.now()
+            recipt["date"] = current_datetime.strftime("%d/%m/%Y %H:%M")
+
+            recipt["total"] = float(form["total"])
+            recipt["shipping"] = float(form["shipping"])
+
+            if len(error) == 0:
+                db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description) VALUES (?, ?, null, ?)",
+                        (g.user['Username'], recipt["date"], "Awesome buy!"))
+                db.commit()
+                items = db.execute("SELECT Pname, Qty FROM Cart WHERE Client=?", (g.user["Username"],)).fetchall()
+                orderID = db.execute("SELECT last_insert_rowid()").fetchone()
+                for item in items:
+                    db.execute("INSERT INTO Order_Has_Product ([Order], Pname, Qty) VALUES (?, ?, ?)",
+                            (orderID[0], item["Pname"], item["Qty"]))
+                    db.commit()
+                db.execute("DELETE FROM Cart WHERE Client=?", (g.user['Username'],))
+                db.commit()
+                return render_template("/buy/recipt.html", recipt=recipt)
+
+    for m in error:
+        flash(m,'danger')
+    return render_template("buy/cart.html",cart=cart)
