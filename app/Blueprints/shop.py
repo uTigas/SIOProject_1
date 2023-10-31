@@ -30,18 +30,15 @@ def productDetails(name):
         return products()  
     
     if request.method=="POST":
-        if request.form.get("cart"):
-            flash("Item successfully added to the Cart!","info")
-        else:
             try:
                 db.execute(
-                    "INSERT INTO Wishlist (Client, Pname) VALUES (?, ?)",
-                    (g.user['Username'],name)
+                    "INSERT INTO Cart (Client, Pname,Qty) VALUES (?, ?,?)",
+                    (g.user['Username'],name,request.form.get("qty"))
                 )
                 db.commit()
-                flash("Item successfully added to the Wishlist!","info")
+                flash("Item successfully added to the Cart!","info")
             except db.IntegrityError:
-                flash("Item already in Wishlist!","info")
+                flash("Couldnt add item to cart. Probably item already in cart.","danger")
                 
     avg = db.execute("SELECT AVG(Score) as avg FROM Review WHERE PName = ? GROUP BY PName",(name,)).fetchone()
 
@@ -200,7 +197,7 @@ def cart():
         cart=dict()
         cart["items"] = db.execute("SELECT Cart.Pname,Description,Price,Link,Cart.Qty FROM Cart JOIN Product_Has_Image ON Product_Has_Image.Pname=Cart.Pname JOIN Image ON Product_Has_Image.ID=Image.ID JOIN Product ON Cart.Pname=Name WHERE Client=? GROUP BY Cart.Pname, Description,Cart.Qty, Price",(g.user['Username'],)).fetchall()
         cart["numItems"]=len(cart["items"])
-        cart["total"]=sum(c["price"] for c in cart["items"])
+        cart["total"]=db.execute("SELECT c.Client, SUM(p.Price * c.Qty) AS TotalPrice FROM Cart c JOIN Product p ON c.PName = p.Name WHERE c.Client = ? GROUP BY c.Client;",(g.user['Username'],)).fetchone()["TotalPrice"]
     if request.method == 'POST':
         form = request.form
         if form["form_name"] == "checkout":
@@ -224,7 +221,12 @@ def cart():
                 db.execute("DELETE FROM Cart WHERE Client=?", (g.user['Username'],))
                 db.commit()
                 return render_template("/buy/recipt.html", recipt=recipt)
+            for m in error:
+                flash(m,'danger')
+        if form["form_name"] == "plus":
+            print(form["item_name"])
+            db.execute("UPDATE Cart SET Qty = Qty + 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
 
-    for m in error:
-        flash(m,'danger')
+        return redirect(url_for("shop.cart"))
+
     return render_template("buy/cart.html",cart=cart)

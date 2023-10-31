@@ -37,26 +37,26 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
-                                                <form name="minus">
+                                                <form name="minus" action="/cart" method="POST">
                                                     <input type="hidden" name="form_name" value="minus">
                                                     <input type="hidden" name="item_name" value="{{ item.name }}">
-                                                    <button type="submit" class="icon-button" href="/cart" style="color: #cecece;"><i class="fa-solid fa-minus" style="color: #c64600;"></i></button type="submit">
+                                                    <button type="submit" class="icon-button" style="color: #cecece;"><i class="fa-solid fa-minus" style="color: #c64600;"></i></button>
                                                 </form>
                                                 <div style="width: 50px;">
                                                     <h5 class="fw-normal mb-0 text-center">{{item.qty}}</h5>
                                                 </div>
-                                                <form name="plus">
+                                                <form name="plus" action="/cart" method="POST">
                                                     <input type="hidden" name="form_name" value="plus">
                                                     <input type="hidden" name="item_name" value="{{ item.name }}">
-                                                    <button type="submit" class="icon-button" href="/cart" style="color: #cecece;"><i class="fa-solid fa-plus" style="color: #26a269;"></i></button type="submit">
+                                                    <button type="submit" class="icon-button" style="color: #cecece;"><i class="fa-solid fa-plus" style="color: #26a269;"></i></button>
                                                 </form>
                                                 <div style="width: 80px;">
                                                     <h5 class="mb-0 text-center" >{{ item.price }}€</h5>
                                                 </div>
-                                                <form name="delete">
+                                                <form name="delete" action="/cart" method="POST">
                                                     <input type="hidden" name="form_name" value="delete">
                                                     <input type="hidden" name="item_name" value="{{ item.name }}">
-                                                    <button type="submit" class="icon-button" href="/cart" style="color: #cecece;"><i class="fa-solid fa-trash-can" style="color: #c64600;"></i></button type="submit">
+                                                    <button type="submit" class="icon-button" style="color: #cecece;"><i class="fa-solid fa-trash-can" style="color: #c64600;"></i></button>
                                                 </form>
                                             </div>
                                         </div>
