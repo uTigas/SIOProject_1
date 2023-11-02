@@ -13,15 +13,14 @@
             <!-- Indicators -->
             <div class="carousel-indicators">
                 {% for image_url in images %}
-                <button type="button" data-bs-target="#carouselExampleIndicators" {% if loop.first %}class="active" aria-current="true"{% endif %} data-bs-slide-to="{{ loop.index -1 }}" aria-label="Slide {{ loop.index }}"></button>
-                {% endfor %}
+                <button type="button" data-bs-target="#carouselExampleIndicators" {% if loop.first %}class="active" aria-current="true" {% endif %} data-bs-slide-to="{{ loop.index -1 }}" aria-label="Slide {{ loop.index }}"></button> {% endfor %}
             </div>
 
             <!-- Slides -->
             <div class="carousel-inner">
                 {% for image_url in images %}
                 <div class="carousel-item {% if loop.first %}active{% endif %}">
-                    <img src="{{ image_url.link }}" class="d-block w-100" alt="Image {{ loop.index }}" style="width: 100%; height: 50vh;object-fit: cover;" >
+                    <img src="{{ image_url.link }}" class="d-block w-100" alt="Image {{ loop.index }}" style="width: 100%; height: 50vh;object-fit: cover;">
                 </div>
                 {% endfor %}
             </div>
@@ -45,7 +44,7 @@
             {% if g.user %}
             <form action="/productDetails/{{ name }}" method="post">
                 <button class="btn btn-primary"><i class="fa fa-plus"></i> | Add to Wishlist</button>
-                <input type="hidden" name="wish" value="true"> </form>
+                <input type="hidden" name="type" value="wish"> </form>
             {% endif %}
         </div>
         <!-- Product Description -->
@@ -59,14 +58,15 @@
         <div class="product-price w-100">
             <span>{{product.price}}€</span>
             <form action="/productDetails/{{ name }}" method="post">
-                <input type="hidden" name="cart" value="true"> 
+                <input type="hidden" name="cart" value="true">
                 <div class="form-group row">
                     <div class="col-6 me-2">
+                        <input type="hidden" name="type" value="cart">
                         <input type="submit" value="Add to cart" class="border-0 mt-3 me-4 cart-btn">
                     </div>
                     <div class="col-4">
                         <label for="qty">Quantity:</label>
-                        <input type="number" id="qty" name="qty" min="1" max="10" value="1" class="form-control p-2">
+                        <input type="number" id="qty" name="qty" min="1" max="{{product.qty}}" value="1" class="form-control p-2">
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
             <div class="modal-body">
                 <form action="{{name}}/review" method="POST">
                     <div class="mb-3">
-                        
+
                         <label for="score" class="form-label">Select Score:  <span id="scoreValue" class="text-warning">3</span><i class="fa-solid fa-star text-warning"></i></label>
                         <input type="range" class="form-range" id="score" min="1" max="5" step="1" value="3" name="score">
                     </div>
@@ -137,7 +137,7 @@
     const scoreInput = document.getElementById('score');
     const scoreValue = document.getElementById('scoreValue');
 
-    scoreInput.addEventListener('input', function () {
+    scoreInput.addEventListener('input', function() {
         scoreValue.textContent = scoreInput.value;
     });
 </script>

@@ -30,16 +30,26 @@ def productDetails(name):
         return products()  
     
     if request.method=="POST":
-            try:
-                db.execute(
-                    "INSERT INTO Cart (Client, Pname,Qty) VALUES (?, ?,?)",
-                    (g.user['Username'],name,request.form.get("qty"))
-                )
-                db.commit()
-                flash("Item successfully added to the Cart!","info")
-            except db.IntegrityError:
-                flash("Couldnt add item to cart. Probably item already in cart.","danger")
-                
+            if request.form.get("type")=="cart":
+                try:
+                    db.execute(
+                        "INSERT INTO Cart (Client, Pname,Qty) VALUES (?, ?,?)",
+                        (g.user['Username'],name,request.form.get("qty"))
+                    )
+                    db.commit()
+                    flash("Item successfully added to the Cart!","info")
+                except db.IntegrityError:
+                    flash("Item already in Cart!","danger")
+            elif request.form.get("type")=="wishlist":
+                try:
+                    db.execute(
+                        "INSERT INTO Wishlist (Client, Pname) VALUES (?, ?)",
+                        (g.user['Username'],name)
+                    )
+                    db.commit()
+                    flash("Item successfully added to the Wishlist!","info")
+                except db.IntegrityError:
+                    flash("Item already in Wishlist!","danger")
     avg = db.execute("SELECT AVG(Score) as avg FROM Review WHERE PName = ? GROUP BY PName",(name,)).fetchone()
 
     return render_template('product/productDetails.html',
@@ -199,34 +209,49 @@ def cart():
         cart["numItems"]=len(cart["items"])
         cart["total"]=db.execute("SELECT c.Client, SUM(p.Price * c.Qty) AS TotalPrice FROM Cart c JOIN Product p ON c.PName = p.Name WHERE c.Client = ? GROUP BY c.Client;",(g.user['Username'],)).fetchone()["TotalPrice"]
     if request.method == 'POST':
-        form = request.form
-        if form["form_name"] == "checkout":
-            recipt = dict()
-            current_datetime = datetime.datetime.now()
-            recipt["date"] = current_datetime.strftime("%d/%m/%Y %H:%M")
+        try:
+            form = request.form
+            if form["form_name"] == "checkout":
+                recipt = dict()
+                current_datetime = datetime.datetime.now()
+                recipt["date"] = current_datetime.strftime("%d/%m/%Y %H:%M")
 
-            recipt["total"] = float(form["total"])
-            recipt["shipping"] = float(form["shipping"])
+                recipt["total"] = float(form["total"])
+                recipt["shipping"] = float(form["shipping"])
 
-            if len(error) == 0:
-                db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description) VALUES (?, ?, null, ?)",
-                        (g.user['Username'], recipt["date"], "Awesome buy!"))
-                db.commit()
-                items = db.execute("SELECT Pname, Qty FROM Cart WHERE Client=?", (g.user["Username"],)).fetchall()
-                orderID = db.execute("SELECT last_insert_rowid()").fetchone()
-                for item in items:
-                    db.execute("INSERT INTO Order_Has_Product ([Order], Pname, Qty) VALUES (?, ?, ?)",
-                            (orderID[0], item["Pname"], item["Qty"]))
+                if len(error) == 0:
+                    items = db.execute("SELECT Pname, Qty FROM Cart WHERE Client=?", (g.user["Username"],)).fetchall()
+                    for item in items:
+                        maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"])).fetchone()
+                        if maxQty<item["Qty"]:
+                            raise 
+                    db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description) VALUES (?, ?, null, ?)",
+                            (g.user['Username'], recipt["date"], "Awesome buy!"))
                     db.commit()
-                db.execute("DELETE FROM Cart WHERE Client=?", (g.user['Username'],))
+                    orderID = db.execute("SELECT last_insert_rowid()").fetchone()
+                    for item in items:
+                        db.execute("INSERT INTO Order_Has_Product ([Order], Pname, Qty) VALUES (?, ?, ?)",
+                                (orderID[0], item["Pname"], item["Qty"]))
+                        db.commit()
+                    db.execute("DELETE FROM Cart WHERE Client=?", (g.user['Username'],))
+                    db.commit()
+                    for item in items:  
+                        db.execute("UPDATE Product SET Qty=Qty-? WHERE Name=?",(item["Qty"],item["Pname"],))
+                    db.commit()
+                    return render_template("/buy/recipt.html", recipt=recipt)
+                for m in error:
+                    flash(m,'danger')
+            if form["form_name"] == "plus":
+                db.execute("UPDATE Cart SET Qty = Qty + 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
                 db.commit()
-                return render_template("/buy/recipt.html", recipt=recipt)
-            for m in error:
-                flash(m,'danger')
-        if form["form_name"] == "plus":
-            print(form["item_name"])
-            db.execute("UPDATE Cart SET Qty = Qty + 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
-
-        return redirect(url_for("shop.cart"))
-
+            if form["form_name"] == "minus":
+                db.execute("UPDATE Cart SET Qty = Qty - 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
+                db.commit()
+            if form["form_name"] == "delete":
+                db.execute("DELETE FROM Cart WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
+                db.commit()
+            return redirect(url_for("shop.cart"))
+        except:
+            error += ["An error ocurred! Cancelling process..."]
+            return redirect(url_for("shop.cart"))
     return render_template("buy/cart.html",cart=cart)
