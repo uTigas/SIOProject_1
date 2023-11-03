@@ -75,11 +75,14 @@
             </div>
             <div class="card-body">
                 <div class="accordion" id="accordionExample">
+                    {% if order_prods.__len__() == 0 %}
+                    <h1 class="fs-3 fw-bold">No orders.</h1>
+                    {% endif %}
                     {% for order, prods in order_prods.items() %}
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                          {{ order.Date }}
+                          {{ loop.index }} - {{ order.Date }}
                         </button>
                       </h2>
                       <div id="collapse{{ loop.index }}" class="accordion-collapse collapse">

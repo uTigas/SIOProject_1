@@ -41,7 +41,6 @@ def productDetails(name):
                 except db.IntegrityError:
                     flash("Item already in Cart!","danger")
             elif request.form.get("type")=="wish":
-            elif request.form.get("type")=="wish":
                 try:
                     db.execute(
                         "INSERT INTO Wishlist (Client, Pname) VALUES (?, ?)",
