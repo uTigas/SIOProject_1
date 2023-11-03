@@ -123,7 +123,11 @@
                                             <div class="form-outline d-flex justify-content-between">
                                                 <input name="shipping" class="mb-2" type="text" value=20 hidden />
                                                 <p class="mb-2">Shipping</p>
-                                                <p class="mb-2">20€</p>
+                                                {% if cart.numItems!=0 %}
+                                                <p class="mb-2">7€</p>
+                                                {% else %}
+                                                <p class="mb-2">0€</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="form-outline d-flex justify-content-between mb-4">
@@ -131,14 +135,21 @@
                                                 <p class="mb-2">Total</p>
                                                 <p class="mb-2">{{cart.total+20}}€</p>
                                             </div>
-
+                                            {% if cart.numItems>0 %}
                                             <button type="submit" class="btn btn-block btn-lg" style="background-color: lightcoral  ;">
-                                        </form>
-                        <div class="d-flex justify-content-between">
-                          <span>{{cart.total+20}}€</span>
-                          <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                        </div>
-                      </button>
+                                            </form>
+                                            <div class="d-flex justify-content-between">
+                                            <span>{{cart.total+7}}€</span>
+                                            <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                            </div>
+                                            </button> {% else %}
+                                            <button disabled type="submit" class="btn btn-block btn-lg" style="background-color: lightcoral  ;">
+                                            </form>
+                                            <div class="d-flex justify-content-between">
+                                            <span>0€</span>
+                                            <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                            </div>
+                                            </button> {% endif %}
 
                                     </div>
                                 </div>

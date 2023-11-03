@@ -40,7 +40,7 @@ def productDetails(name):
                     flash("Item successfully added to the Cart!","info")
                 except db.IntegrityError:
                     flash("Item already in Cart!","danger")
-            elif request.form.get("type")=="wishlist":
+            elif request.form.get("type")=="wish":
                 try:
                     db.execute(
                         "INSERT INTO Wishlist (Client, Pname) VALUES (?, ?)",
@@ -50,6 +50,19 @@ def productDetails(name):
                     flash("Item successfully added to the Wishlist!","info")
                 except db.IntegrityError:
                     flash("Item already in Wishlist!","danger")
+            elif request.form.get("type")=="admin":
+                try:
+                    if request.form.get("option")=="plus":
+                        db.execute("UPDATE Product SET Qty = Qty + ? WHERE [Name] = ?",(request.form.get("qty"),name))
+                        db.commit()
+                    elif request.form.get("option")=="minus":                
+                        db.execute("UPDATE Product SET Qty = Qty - ? WHERE [Name] = ?",(request.form.get("qty"),name))
+                        db.commit()
+                    flash("Inventory Changed with Sucess!","info")
+                except db.IntegrityError:
+                    flash("Inventory management failed...","danger")
+                return redirect(url_for("shop.productDetails",name=name))
+
     avg = db.execute("SELECT AVG(Score) as avg FROM Review WHERE PName = ? GROUP BY PName",(name,)).fetchone()
 
     return render_template('product/productDetails.html',
@@ -204,10 +217,17 @@ def cart():
     db=get_db()
     error=[]
     if request.method == 'GET':
-        cart=dict()
-        cart["items"] = db.execute("SELECT Cart.Pname,Description,Price,Link,Cart.Qty FROM Cart JOIN Product_Has_Image ON Product_Has_Image.Pname=Cart.Pname JOIN Image ON Product_Has_Image.ID=Image.ID JOIN Product ON Cart.Pname=Name WHERE Client=? GROUP BY Cart.Pname, Description,Cart.Qty, Price",(g.user['Username'],)).fetchall()
-        cart["numItems"]=len(cart["items"])
-        cart["total"]=db.execute("SELECT c.Client, SUM(p.Price * c.Qty) AS TotalPrice FROM Cart c JOIN Product p ON c.PName = p.Name WHERE c.Client = ? GROUP BY c.Client;",(g.user['Username'],)).fetchone()["TotalPrice"]
+        try:
+            cart=dict()
+            cart["items"] = db.execute("SELECT Cart.Pname,Description,Price,Link,Cart.Qty FROM Cart JOIN Product_Has_Image ON Product_Has_Image.Pname=Cart.Pname JOIN Image ON Product_Has_Image.ID=Image.ID JOIN Product ON Cart.Pname=Name WHERE Client=? GROUP BY Cart.Pname, Description,Cart.Qty, Price",(g.user['Username'],)).fetchall()
+            cart["numItems"]=len(cart["items"])
+            cart["total"]=db.execute("SELECT c.Client, SUM(p.Price * c.Qty) AS TotalPrice FROM Cart c JOIN Product p ON c.PName = p.Name WHERE c.Client = ? GROUP BY c.Client;",(g.user['Username'],)).fetchone()["TotalPrice"]
+        except:
+            cart=dict()
+            cart["items"]=[]
+            cart["total"]=0
+            cart["numItems"]=0
+
     if request.method == 'POST':
         try:
             form = request.form
@@ -222,16 +242,16 @@ def cart():
                 if len(error) == 0:
                     items = db.execute("SELECT Pname, Qty FROM Cart WHERE Client=?", (g.user["Username"],)).fetchall()
                     for item in items:
-                        maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"])).fetchone()
+                        maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"],)).fetchone()["Qty"]
                         if maxQty<item["Qty"]:
-                            raise 
+                            raise Exception
                     db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description) VALUES (?, ?, null, ?)",
                             (g.user['Username'], recipt["date"], "Awesome buy!"))
                     db.commit()
                     orderID = db.execute("SELECT last_insert_rowid()").fetchone()
                     for item in items:
                         db.execute("INSERT INTO Order_Has_Product ([Order], Pname, Qty) VALUES (?, ?, ?)",
-                                (orderID[0], item["Pname"], item["Qty"]))
+                                (orderID[0], item["Pname"], item["Qty"],))
                         db.commit()
                     db.execute("DELETE FROM Cart WHERE Client=?", (g.user['Username'],))
                     db.commit()
@@ -242,13 +262,13 @@ def cart():
                 for m in error:
                     flash(m,'danger')
             if form["form_name"] == "plus":
-                db.execute("UPDATE Cart SET Qty = Qty + 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
+                db.execute("UPDATE Cart SET Qty = Qty + 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"],))
                 db.commit()
             if form["form_name"] == "minus":
-                db.execute("UPDATE Cart SET Qty = Qty - 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
+                db.execute("UPDATE Cart SET Qty = Qty - 1 WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"],))
                 db.commit()
             if form["form_name"] == "delete":
-                db.execute("DELETE FROM Cart WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"]))
+                db.execute("DELETE FROM Cart WHERE Client = ? AND PName = ?;",(g.user["Username"],form["item_name"],))
                 db.commit()
             return redirect(url_for("shop.cart"))
         except:
