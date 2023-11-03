@@ -1,0 +1,127 @@
+{% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.products') }} {% include 'flash.html' %}
+
+<div class="text-center banner-container text-white" style="background-image: url('https://pbs.twimg.com/media/F8VsWNZaQAE4fPR?format=jpg&name=large'); background-size: 100% auto;width:100%; height:300px">
+    <h1 class="display-4 fw-bolder ba">DETI Merch Store</h1>
+    <p class="lead fw-normal text-white mb-0">- Where perfection becomes <i><b class="text-warning">empirical</b></i> -
+    </p>
+</div>
+
+
+<div class="container px-4 px-lg-5 mt-2">
+    <div class="mt-4 mb-4"></div>
+    <form action="" method="post">
+        <div class="row align-items-start justify-content-between">
+            <div class="col-3">
+                <span class="fs-4">Category: {{category }}</span>
+                <!--{{category | safe }} to allow xss-->
+                <select id="category" name="category" class="form-select" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    {% for cat in categories %}
+                        {% if cat.name == category %}
+                        <option value="{{cat.name}}" selected>{{cat.name}}</option>
+                        {% else %}
+                        <option value="{{cat.name}}" >{{cat.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label for="minPrice" class="form-label">Select Minimum Price:</label>
+                    <input type="range" class="form-range" id="minPrice" min="{{MIN_PRICE}}" max="{{MAX_PRICE}}" step="1" value="{{minPrice}}" name="minPrice" onchange="this.form.submit()">
+                </div>
+                <div class="mb-3">
+                    <label for="maxPrice" class="form-label">Select Maximum Price:</label>
+                    <input type="range" class="form-range" id="maxPrice" min="{{MIN_PRICE}}" max="{{MAX_PRICE}}" step="1" value="{{maxPrice}}" name="maxPrice" onchange="this.form.submit()">
+                </div>
+                <div class="mb-3">
+                    <p>Selected Price Range: $<span id="selectedMinPrice">{{minPrice}}</span> - $<span id="selectedMaxPrice">{{maxPrice}}</span></p>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <div class="container input-group mt-2 ">
+                    {% if search != "" and search !=None %}
+                    <input type="search" placeholder="Search for product" value="{{search}}" id="input" class="form-control" name="input" /> {% else %}
+                    <input type="search" placeholder="Search for Product" id="input" class="form-control" name="input" /> {% endif %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-2">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+            {% for product in products %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <div class="card">
+                        <!-- Product image-->
+                        <img class="card-img-top " style="height: 220px; overflow: hidden; " src="{{ images[product.name].link }} " alt="... " />
+                        <!-- Product details-->
+                        <div class="card-body p-4 ">
+                            <div class="text-center ">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder ">{{product.name}}</h5>
+                                <!-- Product price-->
+                                {{product.price}}€
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="text-center "><a class="btn btn-outline-dark mt-auto " href="/productDetails/{{product.name}} ">View Details</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+</section>
+<style>
+    .banner-container {
+        position: relative;
+        background-image: url('your-image-url.jpg');
+        background-size: cover;
+        width: 100%;
+        height: 300px;
+    }
+    
+    .banner-container::before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Adjust the transparency for the background here */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .banner-container h1,
+    .banner-container p {
+        position: relative;
+        z-index: 1;
+        /* This ensures the text is not transparent */
+    }
+</style>
+
+<script>
+    const minPriceInput = document.getElementById('minPrice');
+    const maxPriceInput = document.getElementById('maxPrice');
+    const selectedMinPrice = document.getElementById('selectedMinPrice');
+    const selectedMaxPrice = document.getElementById('selectedMaxPrice');
+
+    minPriceInput.addEventListener('input', function() {
+        selectedMinPrice.textContent = minPriceInput.value;
+    });
+
+    maxPriceInput.addEventListener('input', function() {
+        selectedMaxPrice.textContent = maxPriceInput.value;
+    });
+</script>
+{% include 'footer.html' %} {% endblock %}

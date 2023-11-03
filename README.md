@@ -12,8 +12,9 @@ Repository for SIO 2023/2024 1st Project
 
 ## Explored CWE's
 
-##      Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') 
 ##      BaseImproper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+##      Improper Neutralization of Input During  Web Page Generation ('Cross-site Scripting') 
+##      CWE-1390: CWE-1390: Weak Authentication
 
 # Installation
 
