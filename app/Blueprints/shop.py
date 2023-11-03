@@ -40,7 +40,7 @@ def productDetails(name):
                     flash("Item successfully added to the Cart!","info")
                 except db.IntegrityError:
                     flash("Item already in Cart!","danger")
-            elif request.form.get("type")=="wishlist":
+            elif request.form.get("type")=="wish":
                 try:
                     db.execute(
                         "INSERT INTO Wishlist (Client, Pname) VALUES (?, ?)",
@@ -207,7 +207,10 @@ def cart():
         cart=dict()
         cart["items"] = db.execute("SELECT Cart.Pname,Description,Price,Link,Cart.Qty FROM Cart JOIN Product_Has_Image ON Product_Has_Image.Pname=Cart.Pname JOIN Image ON Product_Has_Image.ID=Image.ID JOIN Product ON Cart.Pname=Name WHERE Client=? GROUP BY Cart.Pname, Description,Cart.Qty, Price",(g.user['Username'],)).fetchall()
         cart["numItems"]=len(cart["items"])
-        cart["total"]=db.execute("SELECT c.Client, SUM(p.Price * c.Qty) AS TotalPrice FROM Cart c JOIN Product p ON c.PName = p.Name WHERE c.Client = ? GROUP BY c.Client;",(g.user['Username'],)).fetchone()["TotalPrice"]
+        total=db.execute("SELECT c.Client, SUM(p.Price * c.Qty) AS TotalPrice FROM Cart c JOIN Product p ON c.PName = p.Name WHERE c.Client = ? GROUP BY c.Client;",(g.user['Username'],)).fetchone()
+        cart["total"] = 0
+        if total:
+            cart["total"] = total["TotalPrice"]
     if request.method == 'POST':
         try:
             form = request.form
@@ -219,10 +222,10 @@ def cart():
                 recipt["total"] = float(form["total"])
                 recipt["shipping"] = float(form["shipping"])
 
-                if len(error) == 0:
+                if len(error) == 0:                    
                     items = db.execute("SELECT Pname, Qty FROM Cart WHERE Client=?", (g.user["Username"],)).fetchall()
                     for item in items:
-                        maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"])).fetchone()
+                        maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"],)).fetchone()["Qty"]
                         if maxQty<item["Qty"]:
                             raise 
                     db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description) VALUES (?, ?, null, ?)",
@@ -253,5 +256,24 @@ def cart():
             return redirect(url_for("shop.cart"))
         except:
             error += ["An error ocurred! Cancelling process..."]
+            for m in error:
+                    flash(m,'danger')
             return redirect(url_for("shop.cart"))
     return render_template("buy/cart.html",cart=cart)
+
+@bp.route("/profile",methods=("GET","POST"))
+@login_required
+def profile():
+            
+    db = get_db()
+        
+    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where ID = ?",(g.user["ID"],)).fetchone()
+    
+    orders = db.execute("SELECT * FROM [Order] Where Client = ?",(g.user["Username"],)).fetchall()
+    a_orders = db.execute("SELECT op.Qty,Name,Price,[Order] FROM [Order] JOIN Order_Has_Product as op ON op.[Order]=ID JOIN Product ON PName=NAME Where Client = ?",(g.user["Username"],)).fetchall()
+    
+    order_prods = dict()
+    for o in orders:
+        order_prods[o] = list( order for order in a_orders if order["Order"] == o["ID"]  )
+        
+    return render_template("user/profile.html",user=user,order_prods=order_prods)

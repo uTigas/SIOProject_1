@@ -77,6 +77,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['ID']
+            
             return redirect(url_for('index'))
 
         flash(error,'danger')
