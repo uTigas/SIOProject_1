@@ -10,5 +10,5 @@ well as computational resources of the victim become available to the attacker.
 
 ### Reflected XSS Attack
 
-  #### Example
-a
+#### Example
+We can search for products based on a url , i.e ' http://127.0.0.1:5000/products?minPrice=5&maxPrice=40&input=&category=Drinkware '
