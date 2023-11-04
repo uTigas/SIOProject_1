@@ -214,18 +214,18 @@ VALUES
 
 
 -- Insert data into the `Order` table
-INSERT INTO `Order` (Client, Date, ConcDate, Description)
+INSERT INTO `Order` (Client, Date, ConcDate, Description,TotalPrice)
 VALUES
-    ('john_doe', '2023-09-29 10:00:00', '2023-09-30 15:00:00', 'Order for Drinkware'),
-    ('jane_smith', '2023-09-29 11:00:00', '2023-09-30 14:00:00', 'Order for Apparel'),
-    ('alice_wonderland', '2023-09-29 12:00:00', '2023-09-30 16:00:00', 'Order for Drinkware'),
-    ('bob_smith', '2023-09-29 13:00:00', '2023-09-30 17:00:00', 'Order for Apparel'),
-    ('sarah_connor', '2023-09-29 14:00:00', '2023-09-30 18:00:00', 'Order for Drinkware'),
-    ('clark_kent', '2023-09-29 15:00:00', '2023-09-30 19:00:00', 'Order for Apparel'),
-    ('linda_parker', '2023-09-29 16:00:00', '2023-09-30 20:00:00', 'Order for Drinkware'),
-    ('carol_jones', '2023-09-29 17:00:00', '2023-09-30 21:00:00', 'Order for Apparel'),
-    ('mike_adams', '2023-09-29 18:00:00', '2023-09-30 22:00:00', 'Order for Drinkware'),
-    ('emma_smith', '2023-09-29 19:00:00', '2023-09-30 23:00:00', 'Order for Apparel');
+    ('john_doe', '2023-09-29 10:00:00', '2023-09-30 15:00:00', 'Order for Drinkware',30),
+    ('jane_smith', '2023-09-29 11:00:00', '2023-09-30 14:00:00', 'Order for Apparel',50),
+    ('alice_wonderland', '2023-09-29 12:00:00', '2023-09-30 16:00:00', 'Order for Drinkware',30),
+    ('bob_smith', '2023-09-29 13:00:00', '2023-09-30 17:00:00', 'Order for Apparel',40),
+    ('sarah_connor', '2023-09-29 14:00:00', '2023-09-30 18:00:00', 'Order for Drinkware',60),
+    ('clark_kent', '2023-09-29 15:00:00', '2023-09-30 19:00:00', 'Order for Apparel',70),
+    ('linda_parker', '2023-09-29 16:00:00', '2023-09-30 20:00:00', 'Order for Drinkware',80),
+    ('carol_jones', '2023-09-29 17:00:00', '2023-09-30 21:00:00', 'Order for Apparel',90),
+    ('mike_adams', '2023-09-29 18:00:00', '2023-09-30 22:00:00', 'Order for Drinkware',30),
+    ('emma_smith', '2023-09-29 19:00:00', '2023-09-30 23:00:00', 'Order for Apparel',45);
 
 -- Insert data into the Order_Has_Product table
 INSERT INTO Order_Has_Product (`Order`, PName, Qty)

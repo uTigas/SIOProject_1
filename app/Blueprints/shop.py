@@ -11,7 +11,7 @@ bp = Blueprint('shop', __name__)
 
 @bp.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',title="Home")
 
 @bp.route('/productDetails/<name>', methods=('GET', 'POST'))
 def productDetails(name):
@@ -19,7 +19,7 @@ def productDetails(name):
     try:
         query=db.execute( "SELECT * FROM Product WHERE Name=?",(name,))
         query=query.fetchone()
-        if len(query)==0:
+        if query is None:
             flash(f"Product {name} does not exist.",'danger')
             return products()  
         category=db.execute("Select CName from Category_Has_Product WHERE PName=?",(query[0],)).fetchone()
@@ -40,6 +40,8 @@ def productDetails(name):
                     flash("Item successfully added to the Cart!","info")
                 except db.IntegrityError:
                     flash("Item already in Cart!","danger")
+                except TypeError:
+                    return redirect(url_for('auth.login'))
             elif request.form.get("type")=="wish":
                 try:
                     db.execute(
@@ -50,6 +52,8 @@ def productDetails(name):
                     flash("Item successfully added to the Wishlist!","info")
                 except db.IntegrityError:
                     flash("Item already in Wishlist!","danger")
+                except TypeError:
+                    return redirect(url_for('auth.login'))
             elif request.form.get("type")=="admin":
                 try:
                     if request.form.get("option")=="plus":
@@ -61,6 +65,8 @@ def productDetails(name):
                     flash("Inventory Changed with Sucess!","info")
                 except db.IntegrityError:
                     flash("Inventory management failed...","danger")
+                except TypeError:
+                    return redirect(url_for('auth.login'))
                 return redirect(url_for("shop.productDetails",name=name))
 
     avg = db.execute("SELECT AVG(Score) as avg FROM Review WHERE PName = ? GROUP BY PName",(name,)).fetchone()
@@ -125,10 +131,9 @@ def products():
         maxPrice = MAX_PRICE
         error += ["Minimum price bigger than maximum price."]
 
-    for m in error:
-            flash(m,'danger')
-
-    if request.method=="POST":
+    if request.method=="POST" or len(error)>0:
+        for m in error:
+                flash(m,'danger')
         return redirect( url_for('shop.products', minPrice=minPrice,maxPrice=maxPrice,input=search,category=category) )
      
     search = "%" + search + "%"
@@ -243,11 +248,11 @@ def cart():
                     items = db.execute("SELECT Pname, Qty FROM Cart WHERE Client=?", (g.user["Username"],)).fetchall()
                     for item in items:
                         maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"],)).fetchone()["Qty"]
-                        maxQty=db.execute("SELECT Qty FROM Product WHERE Name=?",(item["Pname"],)).fetchone()["Qty"]
                         if maxQty<item["Qty"]:
+                            error += ["Product quantity bigger than stock. " + item["Pname"]]
                             raise Exception
-                    db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description) VALUES (?, ?, null, ?)",
-                            (g.user['Username'], recipt["date"], "Awesome buy!"))
+                    db.execute("INSERT INTO [Order] (Client, Date, ConcDate, Description,TotalPrice) VALUES (?, ?, null, ?, ?)",
+                            (g.user['Username'], recipt["date"], "Awesome buy!",recipt["total"]))
                     db.commit()
                     orderID = db.execute("SELECT last_insert_rowid()").fetchone()
                     for item in items:
@@ -277,7 +282,7 @@ def cart():
             for m in error:
                     flash(m,'danger')
             return redirect(url_for("shop.cart"))
-    return render_template("buy/cart.html",cart=cart)
+    return render_template("buy/cart.html",cart=cart,title="Cart")
 
 @bp.route("/profile",methods=("GET","POST"))
 @login_required
@@ -290,8 +295,17 @@ def profile():
     orders = db.execute("SELECT * FROM [Order] Where Client = ?",(g.user["Username"],)).fetchall()
     a_orders = db.execute("SELECT op.Qty,Name,Price,[Order] FROM [Order] JOIN Order_Has_Product as op ON op.[Order]=ID JOIN Product ON PName=NAME Where Client = ?",(g.user["Username"],)).fetchall()
     
+    if request.method == 'POST':
+        sortt = request.form.get("sort")
+        
+        if sortt == "Date":
+            orders.sort(key=lambda x:x["Date"])
+            
+        if sortt == "Price":
+            orders.sort(key=lambda x: x["TotalPrice"])
+    
     order_prods = dict()
     for o in orders:
         order_prods[o] = list( order for order in a_orders if order["Order"] == o["ID"]  )
-        
-    return render_template("user/profile.html",user=user,order_prods=order_prods)
+                
+    return render_template("user/profile.html",user=user,order_prods=order_prods,title="Profile")

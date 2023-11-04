@@ -78,6 +78,7 @@ DROP TABLE IF EXISTS Wishlist;
         Client varchar(50) not null,
         Date datetime not null,
         ConcDate datetime,
+        TotalPrice INTEGER,
         Description varchar(300),
         FOREIGN KEY (Client) REFERENCES User(Username)
 
