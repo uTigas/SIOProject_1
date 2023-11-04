@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.whishlist') }}
+
+<h1 class="m-5">Whishlist</h1>
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-2">
+        {% if products.__len__() == 0 %}
+                <h1 class="fs-3 text-danger">No products in wishlist.</h1>
+        {% endif %}
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+            
+            {% for product in products %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <div class="card">
+                        <form action="/wishlist" method="POST">
+                            <button name="product" value="{{product[0].name}}" type="submit" class="btn btn-danger w-25 ms-1 my-1"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                        </form>
+                        <!-- Product image-->
+                        <img class="card-img-top" style="height: 220px; overflow: hidden;" src="{{ images[product[0].name].link }}" alt="...">
+                        <!-- Product details-->
+                        <div class="card-body p-4 ">
+                            <div class="text-center ">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder ">{{product[0].name}}</h5>
+                                <!-- Product price-->
+                                {{product[0].price}}€
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="text-center "><a class="btn btn-outline-dark mt-auto " href="/productDetails/{{product[0].name}} ">View Details</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+</section>
+
+{% include 'footer.html' %} {% endblock %}

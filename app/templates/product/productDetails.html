@@ -12,7 +12,7 @@
     </p>
 </div>
 
-<main class="container2">
+    <main class="container2">
 
     <!-- Left Column /  Image -->
     <div class="left-column" style="text-align: center;">
@@ -36,17 +36,17 @@
                 {% endfor %}
             </div>
 
-            <!-- Controls -->
-            <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" ariahidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </a>
+                <!-- Controls -->
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" ariahidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
         </div>
-    </div>
 
 
     <!-- Right Column -->
@@ -112,7 +112,7 @@
         {% endif %}
     </div>
 
-</main>
+    </main>
 
 <div class="container mt-5">
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reviewModal">
@@ -164,13 +164,13 @@
     {% endif %}
 </div>
 
-<script>
-    const scoreInput = document.getElementById('score');
-    const scoreValue = document.getElementById('scoreValue');
+    <script>
+        const scoreInput = document.getElementById('score');
+        const scoreValue = document.getElementById('scoreValue');
 
-    scoreInput.addEventListener('input', function () {
-        scoreValue.textContent = scoreInput.value;
-    });
-</script>
+        scoreInput.addEventListener('input', function() {
+            scoreValue.textContent = scoreInput.value;
+        });
+    </script>
 
 {% endblock %}

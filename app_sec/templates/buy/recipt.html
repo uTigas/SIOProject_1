@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block main %} {% include 'flash.html' %}
+
+<div class="card">
+    <div class="card-body mx-4">
+        <div class="container">
+            <h5 class="mb-3"><a href="/products" class="text-body"><i 
+                class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+            <p class="my-5 mx-5" style="font-size: 30px;">Thank for your purchase!</p>
+            <div class="row">
+                <ul class="list-unstyled">
+                    <li class="text-black">{{recipt.name}} </li>
+                    <li class="text-muted mt-1"><span class="text-black">Invoice</span> #12345</li>
+                    <li class="text-black mt-1">{{recipt.date}} </li>
+                </ul>
+
+            </div>
+            <div class="row">
+
+                <div class="row">
+                    <div class="col-xl-10">
+                        <p>Products</p>
+                    </div>
+                    <div class="col-xl-2">
+                        <p class="float-end"> {{ (recipt.total | float - recipt.shipping | float) }}€
+                        </p>
+                    </div>
+                    <hr style="border: 2px solid black;">
+                </div>
+                <div class="row">
+                    <div class="col-xl-10">
+                        <p>Shipping</p>
+                    </div>
+                    <div class="col-xl-2">
+                        <p class="float-end">{{recipt.shipping}}€
+                        </p>
+                    </div>
+                    <hr style="border: 2px solid black;">
+                </div>
+                <div class="row text-black">
+
+                    <div class="col-xl-12">
+                        <p class="float-end fw-bold">Total: {{recipt.total}} €
+                        </p>
+                    </div>
+                    <hr style="border: 2px solid black;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %} {% endblock %}
