@@ -28,15 +28,15 @@ Also on the function products() on Blueprints/shop.py we never validate if the c
 
 #### Fix 
 
-![image](https://github.com/uTigas/SIOProject_1/assets/125353199/b1c90437-3c9e-4f99-ba53-a23c40f1a128)
+- If we omit the safe tag jinga2 ( our template engine ) will assume that the input is unsafe and only treat it has text.
 
-If we omit the safe tag jinga2 ( our template engine ) will assume that the input is unsafe and only treat it has text.
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/b1c90437-3c9e-4f99-ba53-a23c40f1a128)
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/2d845765-6f1e-40a3-989c-1564e4fa3509)
 
-![image](https://github.com/uTigas/SIOProject_1/assets/125353199/827a3648-83a7-41d1-aaba-62706fd6899d)
+- If we validate if the category exists we can on the serrver indicate correct steps to fix the problem.
 
-If we validate if the category exists we can on the serrver indicate correct steps to fix the problem.
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/827a3648-83a7-41d1-aaba-62706fd6899d)
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/145e88f5-7c0b-40d5-8f0c-cfb829b8b116)
 
