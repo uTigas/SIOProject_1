@@ -41,6 +41,46 @@ Also on the function products() on Blueprints/shop.py we never validate if the c
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/55a4e7a9-9c68-4497-a5ca-62f2c1ac4696)
 
 
+### Stored XSS Attack
+
+#### Example
+
+We can write reviews for a product.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/a9d6e9f7-dd3a-4c1d-9656-3f67922705ca)
+
+But we can insert a malicious payload in the review that will then be stored on the server. Users then accessing this webpage will render the malicious payload.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/a66876dc-7e6e-4946-b8f1-f533da1035f9)
+
+After we load the page again we get:
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/3d10f1d8-cd73-4fa1-8b4a-212b4fd55beb)
+
+#### Weak code
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/1fc178b6-ef97-4a10-831b-145e12385e66)
+
+We assume that the review is safe so the contents of it are treated like html.
+
+Also we dont check on the server side if the review migth have malicious code.
+
+#### Fix 
+
+- Just omit the safe tag and the review will only be treated as text.
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/c53ecf37-a7fa-4fff-b0c6-ac66378aedab)
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/dc2f727c-95ac-4234-9367-6e4c673ef5fe)
+
+- We could also parse the review and check if it has any potencial malicous payload and reject it but for our case we assumed that the review is only text so this is uneccesary and just removing the safe tag is enough.
+
+
+
+
+
+
+
+
 
 
 
