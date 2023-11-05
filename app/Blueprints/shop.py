@@ -137,11 +137,24 @@ def products():
         return redirect( url_for('shop.products', minPrice=minPrice,maxPrice=maxPrice,input=search,category=category) )
      
     search = "%" + search + "%"
-    if category is None or len(category)==0 or category=="All" or category=="None":   
-        items=db.execute("SELECT * FROM Product Where Price >= ? AND Price <= ? and Product.Name LIKE ? ",(minPrice,maxPrice,search,)).fetchall()
+    # if category is None or len(category)==0 or category=="All" or category=="None":   
+    #     items=db.execute("SELECT * FROM Product Where Price >= ? AND Price <= ? and Product.Name LIKE ? ",(minPrice,maxPrice,search,)).fetchall()
+    #     category="All"
+    # else:
+    #     items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name and Price >= ? AND Price <= ? and Product.Name LIKE ?",
+    #                      (category,minPrice,maxPrice,search,)).fetchall()
+    
+    if category is None or len(category)==0 or category=="All" or category=="None":
+        items=db.execute("SELECT * FROM Product Where Price >=" + str(minPrice) + 
+                         " AND Price <="+str(maxPrice)+
+                         " AND Product.Name LIKE '"+search+"'").fetchall()
         category="All"
     else:
-        items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name and Price >= ? AND Price <= ? and Product.Name LIKE ?",(category,minPrice,maxPrice,search,)).fetchall()
+        items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname='"+category+"' WHERE Pname=Product.Name"+
+                         " AND Price >=" + str(minPrice) + 
+                         " AND Price <=" + str(maxPrice)+
+                         " AND Product.Name LIKE '"+search+"'").fetchall()
+
 
 
     categories=db.execute("SELECT * FROM Category").fetchall()
@@ -290,9 +303,12 @@ def profile():
             
     db = get_db()
         
-    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where ID = ?",(g.user["ID"],)).fetchone()
+    # user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where ID = ?",(g.user["ID"],)).fetchone()
+    # orders = db.execute("SELECT * FROM [Order] Where Client = ?",(user["Username"],)).fetchall()
     
-    orders = db.execute("SELECT * FROM [Order] Where Client = ?",(g.user["Username"],)).fetchall()
+    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where Username = '"+g.user["Username"]+"'").fetchone()
+    orders = db.execute("SELECT * FROM [Order] Where Client = '"+g.user["Username"]+"'").fetchall()
+    
     a_orders = db.execute("SELECT op.Qty,Name,Price,[Order] FROM [Order] JOIN Order_Has_Product as op ON op.[Order]=ID JOIN Product ON PName=NAME Where Client = ?",(g.user["Username"],)).fetchall()
     
     if request.method == 'POST':
