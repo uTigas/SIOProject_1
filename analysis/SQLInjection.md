@@ -111,6 +111,51 @@ On Blueprints/auth.py register() function
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/595158a1-143e-4277-b317-d9c413102f46)
 
+### Blind Injection
+
+#### Example 
+
+We can search for products using a string but this field is vulnerable to sql injection.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/a6a9ece3-6a6f-4ef7-be78-ba782dff48b1)
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/3913254e-0de5-439d-8e91-0d8e8f717923)
+
+We can see that products will only appear when on ```' AND TEST -- // ``` the ```TEST``` is true. 
+For example we can use ```' AND ( select COUNT(*) from User ) > NUM  -- //``` to see if the number of users is superior to ```NUM```
+And by doing some queries we can find exact amount.
+```' AND ( select COUNT(*) from User ) > 50  -- //``` is False.
+```' AND ( select COUNT(*) from User ) > 25  -- //``` is False.
+```' AND ( select COUNT(*) from User ) > 12  -- //``` is True.
+```' AND ( select COUNT(*) from User ) > 18  -- //``` is True.
+```' AND ( select COUNT(*) from User ) > 21  -- //``` is False.
+```' AND ( select COUNT(*) from User ) > 20  -- //``` is True.
+So we get that we have 21 users.
+
+#### Weak code
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/edf2f1ae-6e16-43c7-8837-9ce45723f4a3)
+
+Once again we are building our SQL commands using concatenation of strings. ( Blueprints/shop.py products() function ) 
+
+#### Fix 
+
+- We can deploy a similar strategy used above and use the sqlite3 python functionality to prevent SQL injection.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/d6a7588f-aea9-4dbb-bd32-6aff9352de8e)
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/d80a84ab-84c0-4cf9-83cf-80c55ab47923)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
