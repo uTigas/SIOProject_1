@@ -31,7 +31,8 @@ We are making the sql command based on string concatenation which allows to do a
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/18d2de35-ad85-458d-85da-8056e5100270)
 
-- We could also make an udf that would achieve the same thing that our functionality from sqlite3 , separation between arguments and the prompt.
+- We could also make an udf that would achieve the same thing that our functionality from sqlite3 , separation between arguments and the sql command
+- .
 
 
 
