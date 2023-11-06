@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for , render_template_string
 )
 from werkzeug.exceptions import abort
 
@@ -168,7 +168,7 @@ def products():
                                products=items,
                                title="Merch Store",
                                images=images,
-                               category=category,
+                               category=render_template_string(category),
                                MIN_PRICE=MIN_PRICE,
                                MAX_PRICE=MAX_PRICE,
                                minPrice=minPrice,
