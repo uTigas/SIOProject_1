@@ -297,19 +297,19 @@ def cart():
             return redirect(url_for("shop.cart"))
     return render_template("buy/cart.html",cart=cart,title="Cart")
 
-@bp.route("/profile",methods=("GET","POST"))
+@bp.route("/profile/<name>",methods=("GET","POST"))
 @login_required
-def profile():
+def profile(name):
             
     db = get_db()
         
     # user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where ID = ?",(g.user["ID"],)).fetchone()
     # orders = db.execute("SELECT * FROM [Order] Where Client = ?",(user["Username"],)).fetchall()
     
-    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where Username = '"+g.user["Username"]+"'").fetchone()
-    orders = db.execute("SELECT * FROM [Order] Where Client = '"+g.user["Username"]+"'").fetchall()
+    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where Username = '"+name+"'").fetchone()
+    orders = db.execute("SELECT * FROM [Order] Where Client = '"+name+"'").fetchall()
     
-    a_orders = db.execute("SELECT op.Qty,Name,Price,[Order] FROM [Order] JOIN Order_Has_Product as op ON op.[Order]=ID JOIN Product ON PName=NAME Where Client = ?",(g.user["Username"],)).fetchall()
+    a_orders = db.execute("SELECT op.Qty,Name,Price,[Order] FROM [Order] JOIN Order_Has_Product as op ON op.[Order]=ID JOIN Product ON PName=NAME Where Client = ?",(name,)).fetchall()
     
     if request.method == 'POST':
         sortt = request.form.get("sort")

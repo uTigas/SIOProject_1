@@ -1,13 +1,12 @@
-{% macro navbar(curpage,pagedic=(('shop.index','Home <i class="fa-solid fa-house fa-xs"></i>','nologin'),('shop.products','Products <i class="fa-solid fa-cart-shopping fa-xs"></i>','nologin'),('shop.profile','Profile <i class="fa-solid fa-user fa-xs"></i>','login')))
--%}
+{% macro navbar(curpage,pagedic=(('shop.index','Home','nologin'),('shop.products','Products','nologin'),('shop.profile','Profile','login'))) -%}
 <!--Navbar -->
 <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
     <div class="container-fluid ps-5 pe-5">
 
         <div class="d-flex flex-row flex-fill  navbar-nav ">
-            {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %} {% if curpage != item[0] %}
-            <a class="nav-link ps-3 fs-4 fw-bold" href="{{ url_for(item[0]) }}">{{ item[1] | safe }} </a> {% else %}
-            <a class="nav-link active ps-3 fs-4 fw-bold" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] | safe}}</a> {% endif %} {% endif %} {% endfor %}
+            {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %}
+            <a class="nav-link {% if curpage == item[0] %} active {% endif %} ps-3 fs-4 fw-bold" {% if curpage==item[0] %} aria-current="page" {% endif %} {% if item[0]=='shop.profile' %} href="{{ url_for('shop.profile',name=g.user['Username']) }}" {% else %} href="{{ url_for(item[0]  ) }}"
+                {% endif %}>{{ item[1] }}</a> {% endif %} {% endfor %}
         </div>
 
         {% if g.user %}
@@ -46,19 +45,16 @@
                 {% endif %}
                 <hr>
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %} {% if curpage != item[0] %}
+                    {% for item in pagedic %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for(item[0]) }}">{{ item[1] | safe }}</a>
+                        {% if g.user or item[2] == 'nologin' %}
+                        <a class="nav-link {% if curpage == item[0] %} active {% endif %} ps-3 fs-4 fw-bold" {% if curpage==item[0] %} aria-current="page" {% endif %} {% if item[0]=='shop.profile' %} href="{{ url_for('shop.profile',name=g.user['Username']) }}" {% else %} href="{{ url_for(item[0]  ) }}"
+                            {% endif %}>{{ item[1] }}</a> {% endif %}
                     </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] | safe }}</a>
-                    </li>
-                    {% endif %} {% endif %} {% endfor %}
+                    {% endfor %}
                 </ul>
             </div>
         </div>
-
     </div>
 </nav>
 <div style="height: 72px;width: 100%;background-color: #f84921;position:fixed;z-index: 1;"></div>
