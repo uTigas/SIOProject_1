@@ -85,7 +85,14 @@ def login():
         ).fetchone()
         
         if user is None:
-            error = 'Incorrect credentials.'
+            user = db.execute(
+                'SELECT * FROM user WHERE Username = ?', (username,)
+            ).fetchone()
+
+            if user is None:
+                error = 'Incorrect username.'
+            elif not check_password_hash(user['Password'], password):
+                error = 'Incorrect password.'
         
         if error is None:
             session.clear()
