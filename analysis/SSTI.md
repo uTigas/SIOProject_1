@@ -46,7 +46,7 @@ Shows the contents of ```__init__.py``` which is source code of our website.
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/b29ae7e0-eeb9-423e-861a-06937e28156c)
 
-At this point we have access to ```bash``` commands and we can go some damage to the server.
+At this point we have access to ```bash``` commands and we can go do some damage to the server.
 
 ## Weak code
 
