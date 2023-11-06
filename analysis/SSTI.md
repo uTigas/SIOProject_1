@@ -52,7 +52,7 @@ At this point we have access to ```bash``` commands and we can go some damage to
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/f18d3a42-f402-4011-a008-cafd5530d711)
 
-On this line we are calling rendering category as a template but we never check if category is safe to parse.
+On this line we are calling rendering on category as a template but we never check if category is safe to render().
 
 ## Fix 
 
