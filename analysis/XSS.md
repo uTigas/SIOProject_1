@@ -74,6 +74,24 @@ Also we dont check on the server side if the review migth have malicious code.
 
 - We could also parse the review and check if it has any potencial malicous payload and reject it but for our case we assumed that the review is only text so this is uneccesary and just removing the safe tag is enough.
 
+###  CSRF Attack
+
+#### Example
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/6f58765f-a5a1-44b0-9935-1e79b1ead970)
+
+We can also target different serves using an XSS attack in this example we use the image tag to make a request to a server with the credentials of a user who visits the page with malicious review.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/1326ef61-d4ad-4535-9907-d1a46945f880)
+
+As we can see a GET request to ```https://vulnerable-bank.com/transfer.jsp?amount=1000&to_nib=12345300033233``` was sent and a normal user migth have been unware of this.
+
+#### Fix 
+
+- Don´t allow stored XSS Attack and reflected XSS Attack with the strategies diccussed above.
+
+
+
 
 
 
