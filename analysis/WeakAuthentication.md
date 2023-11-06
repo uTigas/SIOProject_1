@@ -12,7 +12,12 @@ In auth.py, when we handle the definition and change of a password, no verificat
 
 ## Exploit
 
-We have user called Weak. He uses a very basic password. Through brute force, fetching from a common password database we we're able to find it's password. It was "potato":
+Consider the following simple script in python, present in the bruteforce.py file:
+![images](static/bruteforce.png)
+
+**Note:** We are using a github document, stored in "10-million-password-list-top-10000.txt"(obtained from: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt)
+
+We have a user called Weak. He uses a very basic password. Through brute force, fetching from a common password database we we're able to find it's password. It was "potato":
 
 ![images](static/foundPassword.png)
 
@@ -33,3 +38,4 @@ We validate:
 And act accordingly:
 ![images](static/validatePassword.png)
 
+    
