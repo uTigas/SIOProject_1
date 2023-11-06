@@ -16,6 +16,7 @@ This project theme is "DETI memorabilia at the University of Aveiro". The aim is
 ##      Improper Neutralization of Input During  Web Page Generation ('Cross-site Scripting') 
 ##      Weak Authentication
 ##      Direct Request ('Forced Browsing')
+##      Improper Neutralization of Special Elements Used in a Template Engine
 
 # Installation
 
