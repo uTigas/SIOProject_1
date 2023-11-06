@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for , make_response
 )
 from werkzeug.exceptions import abort
 
@@ -8,6 +8,23 @@ from Database.db import get_db
 import datetime
 
 bp = Blueprint('shop', __name__)
+
+from functools import wraps
+
+csp_value = '''default-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' https://media.gettyimages.com https://pbs.twimg.com data:; script-src-elem 'self' 'unsafe-inline' https://kit.fontawesome.com https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js; script-src 'self' 'unsafe-inline'; connect-src 'self' https://ka-f.fontawesome.com; font-src 'self' https://fonts.gstatic.com https://ka-f.fontawesome.com;'''
+
+def apply_csp_to_routes(csp_value):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            response = make_response(func(*args, **kwargs))
+            response.headers['Content-Security-Policy'] = csp_value
+            return response
+        return wrapper
+    return decorator
+
+# The above wrapper can be used to send an header that follows our content security policy 
+# @apply_csp_to_routes(csp_value)
 
 @bp.route('/')
 def index():
@@ -131,32 +148,23 @@ def products():
         maxPrice = MAX_PRICE
         error += ["Minimum price bigger than maximum price."]
 
+    existCategory = db.execute("SELECT * FROM Category WHERE Name = ?", (category,)).fetchone()
+    if not existCategory and category!="All" and category!="None" and category is not None:
+        error += ["Category " + category +  " doesnt exist"]
+        category="All"
+
     if request.method=="POST" or len(error)>0:
         for m in error:
                 flash(m,'danger')
         return redirect( url_for('shop.products', minPrice=minPrice,maxPrice=maxPrice,input=search,category=category) )
      
     search = "%" + search + "%"
-    # if category is None or len(category)==0 or category=="All" or category=="None":   
-    #     items=db.execute("SELECT * FROM Product Where Price >= ? AND Price <= ? and Product.Name LIKE ? ",(minPrice,maxPrice,search,)).fetchall()
-    #     category="All"
-    # else:
-    #     items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name and Price >= ? AND Price <= ? and Product.Name LIKE ?",
-    #                      (category,minPrice,maxPrice,search,)).fetchall()
-    
-    if category is None or len(category)==0 or category=="All" or category=="None":
-        items=db.execute("SELECT * FROM Product Where Price >=" + str(minPrice) + 
-                         " AND Price <="+str(maxPrice)+
-                         " AND Product.Name LIKE '"+search+"'").fetchall()
+    if category is None or len(category)==0 or category=="All" or category=="None":   
+        items=db.execute("SELECT * FROM Product Where Price >= ? AND Price <= ? and Product.Name LIKE ? ",(minPrice,maxPrice,search,)).fetchall()
         category="All"
     else:
-        items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname='"+category+"' WHERE Pname=Product.Name"+
-                         " AND Price >=" + str(minPrice) + 
-                         " AND Price <=" + str(maxPrice)+
-                         " AND Product.Name LIKE '"+search+"'").fetchall()
-
-
-
+        items=db.execute("SELECT * FROM Product JOIN Category_Has_Product ON Cname=? WHERE Pname=Product.Name and Price >= ? AND Price <= ? and Product.Name LIKE ?",
+                         (category,minPrice,maxPrice,search,)).fetchall()
     categories=db.execute("SELECT * FROM Category").fetchall()
 
     for item in items:
@@ -303,12 +311,9 @@ def profile():
             
     db = get_db()
         
-    # user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where ID = ?",(g.user["ID"],)).fetchone()
-    # orders = db.execute("SELECT * FROM [Order] Where Client = ?",(user["Username"],)).fetchall()
-    
-    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where Username = '"+g.user["Username"]+"'").fetchone()
-    orders = db.execute("SELECT * FROM [Order] Where Client = '"+g.user["Username"]+"'").fetchall()
-    
+    user = db.execute("SELECT Username,Name,PhoneNumber,Email,Age,Role FROM User Where ID = ?",(g.user["ID"],)).fetchone()
+    orders = db.execute("SELECT * FROM [Order] Where Client = ?",(user["Username"],)).fetchall()
+        
     a_orders = db.execute("SELECT op.Qty,Name,Price,[Order] FROM [Order] JOIN Order_Has_Product as op ON op.[Order]=ID JOIN Product ON PName=NAME Where Client = ?",(g.user["Username"],)).fetchall()
     
     if request.method == 'POST':

@@ -12,7 +12,7 @@
     <form action="" method="post">
         <div class="row align-items-start justify-content-between">
             <div class="col-3">
-                <span class="fs-4">Category: {{ category | safe }}</span>
+                <span class="fs-4">Category: {{ category }}</span>
                 <select id="category" name="category" class="form-select" onchange="this.form.submit()">
                     <option value="">All</option>
                     {% for cat in categories %}
