@@ -1,17 +1,19 @@
-{% macro navbar(curpage,pagedic=(('shop.index','Home','nologin'),('shop.products','Products','nologin'),('shop.profile','Profile','login'))) -%}
+{% macro navbar(curpage,pagedic=(('shop.index','Home <i class="fa-solid fa-house fa-xs"></i>','nologin'),('shop.products','Products <i class="fa-solid fa-cart-shopping fa-xs"></i>','nologin'),('shop.profile','Profile <i class="fa-solid fa-user fa-xs"></i>','login')))
+-%}
 <!--Navbar -->
 <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
     <div class="container-fluid ps-5 pe-5">
 
         <div class="d-flex flex-row flex-fill  navbar-nav ">
             {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %} {% if curpage != item[0] %}
-            <a class="nav-link ps-3 fs-4 fw-bold" href="{{ url_for(item[0]) }}">{{ item[1] }} </a> {% else %}
-            <a class="nav-link active ps-3 fs-4 fw-bold" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a> {% endif %} {% endif %} {% endfor %}
+            <a class="nav-link ps-3 fs-4 fw-bold" href="{{ url_for(item[0]) }}">{{ item[1] | safe }} </a> {% else %}
+            <a class="nav-link active ps-3 fs-4 fw-bold" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] | safe}}</a> {% endif %} {% endif %} {% endfor %}
         </div>
 
+        {% if g.user %}
         <a class="nav-link pe-3 fs-4 fw-bold" href="{{ url_for('shop.cart') }}">
             Cart <i class="fa-solid fa-cart-shopping"></i>
-        </a>
+        </a> {% endif %}
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -43,18 +45,14 @@
                 </div>
                 {% endif %}
                 <hr>
-                <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     {% for item in pagedic %} {% if g.user or item[2] == 'nologin' %} {% if curpage != item[0] %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                        <a class="nav-link" href="{{ url_for(item[0]) }}">{{ item[1] | safe }}</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] }}</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for(item[0]) }}">{{ item[1] | safe }}</a>
                     </li>
                     {% endif %} {% endif %} {% endfor %}
                 </ul>

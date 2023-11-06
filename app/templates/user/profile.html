@@ -1,77 +1,85 @@
-{% extends 'base.html' %}
-
-{% block main %}
-
-{% from 'navbar.html' import navbar %}
-{{ navbar('shop.profile') }}
-{% include 'flash.html' %}
+{% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.profile') }} {% include 'flash.html' %}
 
 <div class="container pt-4 pb-4">
     <div class="row pb-4">
-        <div class="col-8">
-            <div class="card text-bg-dark ">
+        <div class="col">
+            <div class="card text-bg-danger">
                 <div class="card-header">
                     <h2 class="card-title fs-2">User Information</h2>
                 </div>
-                <div class="card-body">
-                    <div class="ps-4 fs-4">
-                        <table class="">
-                            <tr>
-                                <td><strong>Username:</strong></td>
-                                <td>{{ user.Username }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Name:</strong></td>
-                                <td>{{ user.Name }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Phone Number:</strong></td>
-                                <td>{{ user.PhoneNumber }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email:</strong></td>
-                                <td>{{ user.Email }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Age:</strong></td>
-                                <td>{{ user.Age }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Role:</strong></td>
-                                <td>{{ user.Role }}</td>
-                            </tr>
-                        </table>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0 ms-2" style="font-size: large; font-weight: bold;">Username</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <input disabled type="text" class="form-control" value="{{ user.Username }}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0 ms-2" style="font-size: large; font-weight: bold;">Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <input disabled type="text" class="form-control" value="{{ user.Name }}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0 ms-2" style="font-size: large; font-weight: bold;">Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <input disabled type="text" class="form-control" value="{ user.PhoneNumber }}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0 ms-2" style="font-size: large; font-weight: bold;">E-mail</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <input disabled type="text" class="form-control" value="{{ user.Email }}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0 ms-2" style="font-size: large; font-weight: bold;">Age</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <input disabled type="text" class="form-control" value="{{ user.Age }}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0 ms-2" style="font-size: large; font-weight: bold;">Role</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <input disabled type="text" class="form-control" value="{{ user.Role }}">
+                            </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col ms-2-sm-4">
+                                <a href="{{ url_for('auth.change_password') }}" class="btn btn-primary w-100">Change Password <i class="fa-solid fa-lock" style="color: #ffffff;"></i></a>
+                            </div>
+                            <div class="col-sm-4">
+                                <a class="btn btn-danger w-100" href="{{ url_for( 'shop.wishlist') }}">Wishlist <i class="fa-solid fa-heart"></i></a>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary w-100">Logout <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-4 btn-danger ">
-            <div class="card text-bg-danger">
-                <div class="card-header">
-                    <h2 class="card-title fs-2">Actions</h2>
-                </div>
-                <div class="card-body">
-                    <div class="ps-2 pt-2">
-                        <a href="{{ url_for('auth.change_password') }}" class="btn btn-success fs-3">Change Password</a>
-                    </div>
-                    <div class="ps-2 pt-2 mt-2">
-                        <a href="{{ url_for('auth.logout') }}" class="btn btn-dark fs-3">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
-    <div class="row ps-2 pe-2 pb-4">
-        <div class="card  text-bg-warning">
-            <div class="card-body">
-                <h1 class="fw-bold"><a href="{{ url_for('shop.wishlist') }}">Wishlist</a></h1>
-            </div>
-        </div>
-    </div>
-    <div class="row  ps-2 pe-2">
-        <div class="card  text-bg-success">
-            <div class="card-header">
-                <h2 class="card-title fs-2">Orders:</h2>
+
+    <div class="row ps-2 pe-2">
+        <div class="card bg-danger">
+            <div class="card-header text-white my-2">
+                <h2 class="card-title w-100">Orders:</h2>
             </div>
             <div class="card-body">
                 <div class="row mb-4">
@@ -89,39 +97,38 @@
                 <div class="accordion" id="accordionExample">
                     {% if order_prods.__len__() == 0 %}
                     <h1 class="fs-3 fw-bold">No orders.</h1>
-                    {% endif %}
-                    {% for order, prods in order_prods.items() %}
+                    {% endif %} {% for order, prods in order_prods.items() %}
                     <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                          {{ loop.index }} - {{ order.Date }} - {{ order.TotalPrice }} $
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                          {{ loop.index }} - {{ order.Date }} - {{ order.TotalPrice }} €
                         </button>
-                      </h2>
-                      <div id="collapse{{ loop.index }}" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <table class="table">
-                                <th>
-                                    <td>Product</td>
-                                    <td>Price</td>
-                                    <td>Qty</td>
-                                    <td>Total</td>
-                                </th>
-                                {% for prod in prods %}
-                                <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ prod.Name }}</td>
-                                    <td>{{ prod.Price }}</td>
-                                    <td>{{ prod.Qty }}</td>
-                                    <td>{{ prod.Qty*prod.Price }}$</td>
+                        </h2>
+                        <div id="collapse{{ loop.index }}" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <table class="table">
+                                    <th>
+                                        <td>Product</td>
+                                        <td>Price</td>
+                                        <td>Qty</td>
+                                        <td>Total</td>
+                                    </th>
+                                    {% for prod in prods %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ prod.Name }}</td>
+                                        <td>{{ prod.Price }}</td>
+                                        <td>{{ prod.Qty }}</td>
+                                        <td>{{ prod.Qty*prod.Price }}$</td>
 
-                                </tr>
-                                {% endfor %}
-                            </table>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                    {% endfor %}   
-                </div>                
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

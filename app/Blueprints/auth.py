@@ -1,4 +1,5 @@
 import functools
+import re
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -42,17 +43,20 @@ def register():
         #     error += ['Username is not alphanumeric.\n']
                     
         if len(error) == 0:
-            try:
-                db.execute(
-                    "INSERT INTO User (Username, Password, Name , PhoneNumber , Email , Age , Role) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (username, generate_password_hash(password) , name , phone , email , age , 'user')
-                )
-                db.commit()
-            except db.IntegrityError:
-                error += [f"User {username} is already registered."]
-            else:
-                return redirect(url_for("auth.login"))
-            
+            #if not password_strong(password):
+            #    error+=[("Password must be a mix of uppercase and lowercase letters, have at least one digit, at least one special character from the specified set, and a minimum length of 8 characters.","danger")]
+            #else:
+                try:
+                    db.execute(
+                        "INSERT INTO User (Username, Password, Name , PhoneNumber , Email , Age , Role) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                        (username, generate_password_hash(password) , name , phone , email , age , 'user')
+                    )
+                    db.commit()
+                except db.IntegrityError:
+                    error += [f"User {username} is already registered."]
+                else:
+                    return redirect(url_for("auth.login"))
+                
         for m in error:
             flash(m,'danger')
 
@@ -149,17 +153,20 @@ def change_password():
             error += ['Incorrect password.']
 
         if len(error) == 0:
-            try:
-                db.execute(
-                    "Update User SET Password=(?) WHERE Username = (?) ",
-                    (generate_password_hash(npassword),username)
-                )
-                db.commit()
+            #if not password_strong(npassword):
+                #error+=[("Password must be a mix of uppercase and lowercase letters, have at least one digit, at least one special character from the specified set, and a minimum length of 8 characters.","danger")]
+            #else:
+                try:
+                    db.execute(
+                        "Update User SET Password=(?) WHERE Username = (?) ",
+                        (generate_password_hash(npassword),username)
+                    )
+                    db.commit()
 
-                return redirect(url_for('auth.login'))
-            
-            except db.IntegrityError:
-                error += [f"ERROR:Unreachable code"]
+                    return redirect(url_for('auth.login'))
+                
+                except db.IntegrityError:
+                    error += [f"ERROR:Unreachable code"]
 
         for m in error:
             flash(m,'danger')
@@ -190,3 +197,7 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+def password_strong(password):
+    pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&!]{8,}$'
+    return re.match(pattern, password) is not None

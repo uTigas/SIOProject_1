@@ -39,11 +39,13 @@ def register():
             error += ['Email is required.\n']
         if not rpass == password:
             error += ['Passwords dont match.\n']
-
+        # if not username.isalnum():
+        #     error += ['Username is not alphanumeric.\n']
+                    
         if len(error) == 0:
-            if not password_strong(password):
-                error+=[("Password must be a mix of uppercase and lowercase letters, have at least one digit, at least one special character from the specified set, and a minimum length of 8 characters.","danger")]
-            else:
+            #if not password_strong(password):
+            #    error+=[("Password must be a mix of uppercase and lowercase letters, have at least one digit, at least one special character from the specified set, and a minimum length of 8 characters.","danger")]
+            #else:
                 try:
                     db.execute(
                         "INSERT INTO User (Username, Password, Name , PhoneNumber , Email , Age , Role) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -54,7 +56,7 @@ def register():
                     error += [f"User {username} is already registered."]
                 else:
                     return redirect(url_for("auth.login"))
-            
+                
         for m in error:
             flash(m,'danger')
 
@@ -62,6 +64,41 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+
+        error = None
+
+        # user = db.execute(
+        #     'SELECT * FROM user WHERE Username = ?', (username,)
+        # ).fetchone()
+
+        # if user is None:
+        #     error = 'Incorrect username.'
+        # elif not check_password_hash(user['Password'], password):
+        #     error = 'Incorrect password.'
+        
+        user = db.execute(
+             "SELECT * FROM user WHERE Username='"+ username +"'AND Password='" + generate_password_hash(password) + "'"
+        ).fetchone()
+        
+        if user is None:
+            error = 'Incorrect credentials.'
+        
+        if error is None:
+            session.clear()
+            session['user_id'] = user['ID']
+            
+            return redirect(url_for('index'))
+
+        flash(error,'danger')
+
+    return render_template('auth/login.html')
+
+@bp.route('/login/safe', methods=('GET', 'POST'))
+def loginsafe():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -77,7 +114,10 @@ def login():
             error = 'Incorrect username.'
         elif not check_password_hash(user['Password'], password):
             error = 'Incorrect password.'
-
+                
+        if user is None:
+            error = 'Incorrect credentials.'
+        
         if error is None:
             session.clear()
             session['user_id'] = user['ID']
@@ -113,9 +153,9 @@ def change_password():
             error += ['Incorrect password.']
 
         if len(error) == 0:
-            if not password_strong(npassword):
-                error+=[("Password must be a mix of uppercase and lowercase letters, have at least one digit, at least one special character from the specified set, and a minimum length of 8 characters.","danger")]
-            else:
+            #if not password_strong(npassword):
+                #error+=[("Password must be a mix of uppercase and lowercase letters, have at least one digit, at least one special character from the specified set, and a minimum length of 8 characters.","danger")]
+            #else:
                 try:
                     db.execute(
                         "Update User SET Password=(?) WHERE Username = (?) ",

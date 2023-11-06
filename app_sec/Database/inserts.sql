@@ -1,6 +1,7 @@
 -- Insert data into the User table
 INSERT INTO User (Username, Password, Name, PhoneNumber, Email, Age, Role)
 VALUES
+    ('Weak', 'scrypt:32768:8:1$p6TAZkafxl8hYp5f$ff5d1a1330558e8499bade695a5dcc204b7d14d6060597ad6b21c6eb5c53d5edf29e8c8a95614fa375bcaf5ce2dd21ca7ea1f9d3d7fdd2a960d95b484f9ab43e', 'Weak User', 23123123, 'somemail@example.com', 200, 'Customer'),
     ('john_doe', 'scrypt:32768:8:1$ktYR2pTKDPWTivre$3eefabb308d4e42dbe4098f861e96505245ad6a0b801762b6ceca980ed7be60d919ff02145451394201c1d35f8f83a3d36a2dcbf059aab4b9ed1794b074beb3b', 'John Doe', 1234567890, 'john.doe@example.com', 30, 'Customer'),
     ('jane_smith', 'scrypt:32768:8:1$sHedLeOgqmC8NMuI$c0e94f4f5bbdae816943f1451436a4094775c420397ab82e6c74ad5daa9c6f2d8c0bccc3259288c4ea9c749932a23db3c9e2ff841ca7bc7d1128fd8700690ab0', 'Jane Smith', 0, 'jane.smith@example.com', 25, 'Customer'),
     ('admin_user', 'scrypt:32768:8:1$88JWKlAGfjPTftKJ$0d22b66c9078542fe7e5a08b192dcef34d1d8ce4b9f478eb17b438bf09700bf035682c726cfcb756e2f6d48814ed024d499ce9c96feb9ed83df4b62cb8e5881f', 'Admin User', 0, 'admin@example.com', 35, 'Admin'),
@@ -214,18 +215,18 @@ VALUES
 
 
 -- Insert data into the `Order` table
-INSERT INTO `Order` (Client, Date, ConcDate, Description)
+INSERT INTO `Order` (Client, Date, ConcDate, Description,TotalPrice)
 VALUES
-    ('john_doe', '2023-09-29 10:00:00', '2023-09-30 15:00:00', 'Order for Drinkware'),
-    ('jane_smith', '2023-09-29 11:00:00', '2023-09-30 14:00:00', 'Order for Apparel'),
-    ('alice_wonderland', '2023-09-29 12:00:00', '2023-09-30 16:00:00', 'Order for Drinkware'),
-    ('bob_smith', '2023-09-29 13:00:00', '2023-09-30 17:00:00', 'Order for Apparel'),
-    ('sarah_connor', '2023-09-29 14:00:00', '2023-09-30 18:00:00', 'Order for Drinkware'),
-    ('clark_kent', '2023-09-29 15:00:00', '2023-09-30 19:00:00', 'Order for Apparel'),
-    ('linda_parker', '2023-09-29 16:00:00', '2023-09-30 20:00:00', 'Order for Drinkware'),
-    ('carol_jones', '2023-09-29 17:00:00', '2023-09-30 21:00:00', 'Order for Apparel'),
-    ('mike_adams', '2023-09-29 18:00:00', '2023-09-30 22:00:00', 'Order for Drinkware'),
-    ('emma_smith', '2023-09-29 19:00:00', '2023-09-30 23:00:00', 'Order for Apparel');
+    ('john_doe', '2023-09-29 10:00:00', '2023-09-30 15:00:00', 'Order for Drinkware',30),
+    ('jane_smith', '2023-09-29 11:00:00', '2023-09-30 14:00:00', 'Order for Apparel',50),
+    ('alice_wonderland', '2023-09-29 12:00:00', '2023-09-30 16:00:00', 'Order for Drinkware',30),
+    ('bob_smith', '2023-09-29 13:00:00', '2023-09-30 17:00:00', 'Order for Apparel',40),
+    ('sarah_connor', '2023-09-29 14:00:00', '2023-09-30 18:00:00', 'Order for Drinkware',60),
+    ('clark_kent', '2023-09-29 15:00:00', '2023-09-30 19:00:00', 'Order for Apparel',70),
+    ('linda_parker', '2023-09-29 16:00:00', '2023-09-30 20:00:00', 'Order for Drinkware',80),
+    ('carol_jones', '2023-09-29 17:00:00', '2023-09-30 21:00:00', 'Order for Apparel',90),
+    ('mike_adams', '2023-09-29 18:00:00', '2023-09-30 22:00:00', 'Order for Drinkware',30),
+    ('emma_smith', '2023-09-29 19:00:00', '2023-09-30 23:00:00', 'Order for Apparel',45);
 
 -- Insert data into the Order_Has_Product table
 INSERT INTO Order_Has_Product (`Order`, PName, Qty)

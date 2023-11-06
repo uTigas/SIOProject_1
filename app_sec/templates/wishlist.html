@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% block main %} {% from 'navbar.html' import navbar %} {{ navbar('shop.whishlist') }}
 
-<h1 class="m-5">Whishlist</h1>
+<h1 class="m-5">Wishlist</h1>
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-2">
         {% if products.__len__() == 0 %}
-                <h1 class="fs-3 text-danger">No products in wishlist.</h1>
+        <h1 class="fs-3 text-danger">No products in wishlist.</h1>
         {% endif %}
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
-            
+
             {% for product in products %}
             <div class="col mb-5">
                 <div class="card h-100">
