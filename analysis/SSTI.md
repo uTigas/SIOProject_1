@@ -56,11 +56,11 @@ On this line we are calling rendering category as a template but we never check 
 
 ## Fix 
 
-- Category shouldnt be rendered as a template it should be only treated as text to inject in some template never a template.
+- Category shouldnt be rendered as a template it should be only treated as text to inject in some template, never a template.
 
 ![image](https://github.com/uTigas/SIOProject_1/assets/125353199/f427b211-2250-44d1-a925-e07b80728718)
 
-- We if we really need to render Category has a template we could also validade that category is something safe to render. 
+- If we really need to render Category has a template we could also validade that category is something safe to render. 
 
 
 
