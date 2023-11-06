@@ -1,4 +1,4 @@
-# Analysis CWE-1390: CWE-1390: Weak Authentication
+# Analysis CWE-1390: Weak Authentication
 
 ## Introduction
 It's common for users to prefer the definition and use of weak password, i.e., sequences, common words, etc... Why is that? It's pratical and easy to remember. But that provides a perfect environment for credentials theft, as it is easy to break those credentials
