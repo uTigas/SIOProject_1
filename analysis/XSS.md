@@ -90,7 +90,10 @@ As we can see a GET request to ```https://vulnerable-bank.com/transfer.jsp?amoun
 
 - Don´t allow stored XSS Attack and reflected XSS Attack with the strategies diccussed above.
 
-- Enable CORS or a secure Content Security Policy
+- Enable CORS or a secure Content Security Policy so that the browser knows what to not load.
+
+![image](https://github.com/uTigas/SIOProject_1/assets/125353199/a4874939-1a63-42cb-82de-2a54a16df10b)
+
 
 
 
